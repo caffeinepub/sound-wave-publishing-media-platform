@@ -1,0 +1,124 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-27T04:07:23.995Z",
+  "summary": "The diff implements most frontend UI requirements (REQ-6 through REQ-10) well, with proper dark/gold theme, home page, event registration, artist portal, admin dashboard, and share purchase flows. However, critical backend requirements (REQ-1 through REQ-5) are only partially visible due to truncation of backend/main.mo. The frontend uses a Stripe Checkout redirect flow rather than embedded Stripe Elements as specified in REQ-7. Several backend acceptance criteria cannot be confirmed from the truncated diff.",
+  "missing_requirements": [
+    {
+      "id": "REQ-7",
+      "requirement": "Stripe Elements card input embedded in the Event Registration page",
+      "reason": "EventRegistrationPage.tsx redirects to a Stripe-hosted checkout URL (window.location.href = result.url) rather than embedding Stripe Elements on the page. The AC explicitly requires 'Stripe Elements card input embedded in the page'.",
+      "evidence": [
+        "frontend/src/pages/EventRegistrationPage.tsx",
+        "frontend/src/components/SharePurchaseForm.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Successful payment shows confirmation screen with registration details (attendee name, email, ticket count, total paid)",
+      "reason": "EventRegistrationSuccessPage.tsx shows a generic confirmation message with no actual registration details. The AC requires showing specific registration details on the confirmation screen.",
+      "evidence": [
+        "frontend/src/pages/EventRegistrationSuccessPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Backend stores share ownership table with principal, shares owned, purchase price, and timestamp; founder 7,000,000 shares pre-seeded; 3,000,000 available for artist purchase; share price stored and readable; event registration records with Stripe payment intent ID; accounting/transaction log",
+      "reason": "backend/main.mo is heavily truncated. The visible portion shows existing media platform types but the share ownership records, event registration records with Stripe intent IDs, and accounting log stable variables for the SWPM feature cannot be confirmed as implemented.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Artist eligibility logic in backend: submitted_pieces count tracked per artist, >= 15 flags eligible, share purchase rejects ineligible artists with clear error message",
+      "reason": "backend/main.mo is truncated and the specific eligibility enforcement logic cannot be confirmed from the visible diff.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Share purchase logic: 1-7 share cap enforced in backend, first 100 eligible artists get 1 free share automatically upon eligibility with counter capped at 100, available share pool decreases and purchase fails if pool is exhausted",
+      "reason": "backend/main.mo is truncated. The free share counter, pool depletion logic, and hard cap enforcement in the backend cannot be confirmed from visible content.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Webhook endpoint receives Stripe events and marks transactions as confirmed; share ownership only finalized upon webhook confirmation; registration status updated to paid upon webhook",
+      "reason": "backend/main.mo is truncated. The webhook handler logic that finalizes share ownership and updates registration status cannot be confirmed from the visible diff.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "CSV export function in backend returns comma-separated string for shareholder and transaction data; non-admin calls to admin functions return authorization error",
+      "reason": "backend/main.mo is truncated. Backend CSV export functions and admin authorization enforcement cannot be confirmed.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Stripe Checkout redirect flow used instead of embedded Stripe Elements for both event registration and share purchases",
+      "reason": "The spec requires PaymentIntents with client secrets returned to the frontend and Stripe Elements embedded in the page. The implementation redirects to a Stripe-hosted checkout URL, which is a different integration pattern not requested.",
+      "evidence": [
+        "frontend/src/pages/EventRegistrationPage.tsx",
+        "frontend/src/components/SharePurchaseForm.tsx"
+      ]
+    },
+    {
+      "description": "SubmitPieceDialog collects a piece title and optional description for musical piece submissions",
+      "reason": "The spec only requires incrementing a piece count when submitting a musical piece. Adding title and description fields is additional functionality not specified in any requirement.",
+      "evidence": [
+        "frontend/src/components/SubmitPieceDialog.tsx"
+      ]
+    },
+    {
+      "description": "Pre-existing media platform features remain in the app: ArtistDashboard, MediaDetailPage, ArtistProfilePage, LightscribeLabelProject, TrademarkRecord, bookkeeping records, AdminBookkeepingPage, AdminAnalyticsPage, AdminUserRolesPage, MerchantServicesSetupDialog, NationalBankcardSetupDialog",
+      "reason": "The build request describes building a Sound Waves Publishing and Media app focused on event registration, share purchases, and admin dashboard. Pre-existing unrelated platform features for media licensing, CD label projects, trademarks, payout records, invoice records, and merchant services were not requested.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/components/bookkeeping/InvoiceRecordDialog.tsx",
+        "frontend/src/components/bookkeeping/MembershipFeeRecordDialog.tsx",
+        "frontend/src/components/bookkeeping/PayoutRecordDialog.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AdminAccountingTab.tsx",
+    "frontend/src/components/AdminRegistrationsTab.tsx",
+    "frontend/src/components/AdminShareholdersTab.tsx",
+    "frontend/src/components/Footer.tsx",
+    "frontend/src/components/Header.tsx",
+    "frontend/src/components/SharePurchaseForm.tsx",
+    "frontend/src/components/SubmitPieceDialog.tsx",
+    "frontend/src/components/bookkeeping/InvoiceRecordDialog.tsx",
+    "frontend/src/components/bookkeeping/MembershipFeeRecordDialog.tsx",
+    "frontend/src/components/bookkeeping/PayoutRecordDialog.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/pages/AdminDashboardPage.tsx",
+    "frontend/src/pages/AdminUserRolesPage.tsx",
+    "frontend/src/pages/ArtistPortalPage.tsx",
+    "frontend/src/pages/EventRegistrationFailurePage.tsx",
+    "frontend/src/pages/EventRegistrationPage.tsx",
+    "frontend/src/pages/EventRegistrationSuccessPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/SharePurchaseFailurePage.tsx",
+    "frontend/src/pages/SharePurchaseSuccessPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

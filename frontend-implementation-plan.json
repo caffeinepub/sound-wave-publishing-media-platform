@@ -1,0 +1,201 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Sound Waves Publishing and Media — Frontend Implementation",
+  "requirements": [
+    {
+      "id": "REQ-6",
+      "summary": "Build public home page with hero section, founder attribution, and navigation to Event Registration and Artist Portal",
+      "acceptanceCriteria": [
+        "Home page displays 'Sound Waves Publishing and Media' as the primary heading",
+        "Founder credit 'Mr. Robin T. Harding Smith, Founder & Creator' is visible",
+        "Navigation links to Event Registration and Artist Portal pages",
+        "Page is responsive and visually polished"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Replace existing home page content with a hero section featuring 'Sound Waves Publishing and Media' heading, founder attribution 'Mr. Robin T. Harding Smith, Founder & Creator', and navigation buttons to Event Registration and Artist Portal. Use the generated hero background image from frontend/public/assets/generated/studio-hero.dim_1200x600.jpg as the background. Remove existing media gallery and search functionality. Apply dark background with gold accents per theme requirements."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Update navigation links to include 'Event Registration' and 'Artist Portal' prominently. Apply gold/amber accent colors to navigation items and maintain dark theme consistency. Ensure responsive behavior for mobile viewports."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Build Event Registration page with form and Stripe checkout flow",
+      "acceptanceCriteria": [
+        "Form fields: full name, email address, ticket quantity (number input, min 1)",
+        "Order summary shows total price before payment",
+        "Stripe Elements card input embedded in the page",
+        "Successful payment shows confirmation screen with registration details",
+        "Payment failure shows error message with retry option"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/EventRegistrationPage.tsx",
+          "operation": "create",
+          "description": "Create Event Registration page with form fields for attendee name, email, and ticket quantity. Calculate order total and display summary. Use the stripe component to initiate Stripe payment flow. Verify the component's usage instructions before implementing. Handle form validation and integrate with backend capability for creating event registration and PaymentIntent. Use dark theme with gold accent buttons."
+        },
+        {
+          "path": "frontend/src/pages/EventRegistrationSuccessPage.tsx",
+          "operation": "create",
+          "description": "Create success page displaying event registration confirmation with attendee details and ticket quantity. Include navigation back to home. Apply dark theme with gold highlights."
+        },
+        {
+          "path": "frontend/src/pages/EventRegistrationFailurePage.tsx",
+          "operation": "create",
+          "description": "Create failure page showing payment error message with option to retry or return to Event Registration form. Apply dark theme styling."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useCreateEventRegistration mutation hook that calls backend capability to create event registration and returns Stripe client secret. Add useConfirmEventPayment mutation for webhook confirmation handling if needed from frontend."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes for /event-registration, /event-registration-success, and /event-registration-failure. Wire EventRegistrationPage, EventRegistrationSuccessPage, and EventRegistrationFailurePage components to these routes. Ensure these routes are publicly accessible without authentication."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Build Artist Portal page for profile management, piece submission, eligibility tracking, share ownership display, and share purchase",
+      "acceptanceCriteria": [
+        "Artists can log in via Internet Identity",
+        "Profile section shows name, email, submitted pieces count, and eligibility status",
+        "Button/form to submit a new musical piece (increments piece count)",
+        "Progress indicator shows pieces submitted out of 15 required",
+        "Share ownership section shows current shares held",
+        "Share purchase form (quantity selector 1–7 minus already owned) is visible only to eligible artists",
+        "First 100 eligible artists see a 'You qualify for 1 free share' notice",
+        "Stripe payment flow initiated for paid share purchases",
+        "Errors shown clearly if share cap is reached or eligibility not met"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ArtistPortalPage.tsx",
+          "operation": "create",
+          "description": "Create Artist Portal page using the authorization component for Internet Identity login. Verify the component's usage instructions before implementing. Display artist profile section with name, email, submitted pieces count, and eligibility status. Show progress bar for pieces submitted out of 15. Display share ownership section with current shares held. Conditionally render share purchase form only for eligible artists with quantity selector (1 to 7 minus already owned). Show 'You qualify for 1 free share' notice for first 100 eligible artists. Include form to submit new musical piece. Use the stripe component to handle share purchase payment flow. Apply dark theme with gold accents."
+        },
+        {
+          "path": "frontend/src/components/SubmitPieceDialog.tsx",
+          "operation": "create",
+          "description": "Create dialog component for submitting a musical piece with fields for piece name/title and optional description. Handle submission via backend capability that increments submitted pieces count. Show success confirmation and updated piece count. Apply dark theme styling."
+        },
+        {
+          "path": "frontend/src/components/SharePurchaseForm.tsx",
+          "operation": "create",
+          "description": "Create component for share purchase form with quantity selector (1 to maximum allowed based on 7-share cap minus already owned). Display share price ($1.00 per share) and total cost. Use the stripe component to initiate payment for paid shares. Verify the component's usage instructions before implementing. Handle free share notice for first 100 eligible artists. Show validation errors if attempting to exceed cap or if not eligible. Apply gold accent to purchase button."
+        },
+        {
+          "path": "frontend/src/pages/SharePurchaseSuccessPage.tsx",
+          "operation": "create",
+          "description": "Create success page confirming share purchase with details of shares acquired and total paid. Include navigation back to Artist Portal. Apply dark theme with gold highlights."
+        },
+        {
+          "path": "frontend/src/pages/SharePurchaseFailurePage.tsx",
+          "operation": "create",
+          "description": "Create failure page showing share purchase payment error with retry option or return to Artist Portal. Apply dark theme styling."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useGetArtistProfile query hook for fetching current artist profile including submitted pieces count, eligibility status, and share ownership. Add useSubmitPiece mutation for submitting musical pieces. Add usePurchaseShares mutation for initiating share purchase with Stripe. Add useGetShareOwnership query for fetching current share count and purchase history."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes for /artist-portal, /share-purchase-success, and /share-purchase-failure. Wire ArtistPortalPage, SharePurchaseSuccessPage, and SharePurchaseFailurePage components to these routes. Apply authentication guard to /artist-portal route requiring Internet Identity login."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Build Admin Dashboard with tabs for Shareholders, Event Registrations, and Accounting Log, each with CSV download",
+      "acceptanceCriteria": [
+        "Admin dashboard is only accessible to authenticated admin users",
+        "Shareholders tab lists artist name, email, shares owned, total paid, and free share status",
+        "Registrations tab lists attendee name, email, tickets, total paid, and payment status",
+        "Accounting tab lists transaction type, amount, date, and associated user",
+        "Each tab has a working CSV download button",
+        "Non-admin users are redirected or shown an access denied message"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AdminDashboardPage.tsx",
+          "operation": "create",
+          "description": "Create Admin Dashboard page using the authorization component to restrict access to admin principals only. Verify the component's usage instructions before implementing. Implement three tabs: Shareholders, Event Registrations, and Accounting Log. Each tab displays a data table with relevant columns. Include CSV download button for each tab that calls backend capability to export data. Show AccessDeniedScreen component if user is not an admin. Apply dark theme with gold tab highlights and table styling."
+        },
+        {
+          "path": "frontend/src/components/AdminShareholdersTab.tsx",
+          "operation": "create",
+          "description": "Create tab component displaying shareholders table with columns: artist name, email, shares owned, total paid, and free share status. Include CSV download button that fetches and downloads shareholder data from backend. Apply dark theme table styling with gold accents."
+        },
+        {
+          "path": "frontend/src/components/AdminRegistrationsTab.tsx",
+          "operation": "create",
+          "description": "Create tab component displaying event registrations table with columns: attendee name, email, ticket quantity, total paid, and payment status. Include CSV download button for registration data export. Apply dark theme table styling."
+        },
+        {
+          "path": "frontend/src/components/AdminAccountingTab.tsx",
+          "operation": "create",
+          "description": "Create tab component displaying accounting log table with columns: transaction type, amount, date/timestamp, and associated user/principal. Include CSV download button for transaction log export. Apply dark theme with gold highlights for transaction amounts."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useGetAllShareholders admin query hook for fetching complete shareholder list. Add useGetAllEventRegistrations admin query for registration data. Add useGetAccountingLog admin query for full transaction history. Add useExportShareholderCSV, useExportRegistrationCSV, and useExportAccountingCSV mutations for CSV data retrieval from backend."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register route for /admin-dashboard and wire AdminDashboardPage component. Apply admin-only authentication guard using the authorization component to restrict access. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Add 'Admin Dashboard' navigation link visible only to authenticated admin users using the authorization component's admin check. Verify the component's usage instructions before implementing. Apply gold accent to admin link."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Apply music-industry visual theme: dark background, gold/amber accents, elegant typography",
+      "acceptanceCriteria": [
+        "Dark background (near-black or deep charcoal) used as base throughout",
+        "Gold or amber accent color used for buttons, highlights, and key UI elements",
+        "Heading typography uses an elegant display or serif font",
+        "Consistent color palette and spacing across Home, Event Registration, Artist Portal, and Admin pages",
+        "Theme is responsive and readable on mobile and desktop"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Define CSS custom properties for dark theme with near-black background (#0a0a0a or #1a1a1a) and gold/amber accent colors (#d4af37, #fbbf24, #f59e0b). Update existing light/dark theme variables to enforce dark-by-default color scheme. Ensure sufficient contrast for accessibility. Import elegant serif or display font (e.g., Playfair Display, Cormorant, or Libre Baskerville) for headings via Google Fonts or similar."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind theme with custom colors for Sound Waves brand: dark background shades (gray-950, gray-900), gold accents (amber-400, amber-500, yellow-600), and white/light gray text colors. Configure fontFamily to include elegant serif or display font for headings. Add custom spacing and border radius utilities to maintain professional, premium aesthetic. Ensure responsive breakpoints and container settings support mobile-first layout."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Apply dark background with gold accent navigation items. Use elegant serif font for 'Sound Waves Publishing and Media' logo text. Ensure header is sticky and responsive with mobile hamburger menu if needed."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Update footer to use dark background and gold text accents. Include 'Sound Waves Publishing and Media' branding and copyright notice for Mr. Robin T. Harding Smith. Apply consistent typography and spacing."
+        }
+      ]
+    }
+  ]
+}

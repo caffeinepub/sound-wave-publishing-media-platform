@@ -1,0 +1,135 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-build-a-public-facing-home-page-for-sound-waves-publishing-and-media-with-a-hero-section-displaying-the-company-name-founder-attribution-mr-robin-t-harding-smith-founder-creator-and-navigation-links-to-event-registration-and-artist-share-purchase-sections",
+      "featureTitle": "Build a public-facing home page for Sound Waves Publishing and Media with a hero section displaying the company name, founder attribution (Mr. Robin T. Harding Smith, Founder & Creator), and navigation links to Event Registration and Artist Share Purchase sections.",
+      "files": [
+        "frontend/src/components/Header.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "http-outcalls@3.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-event-registration-page-with-a-form-collecting-attendee-name-email-and-ticket-quantity-on-submission-initiate-a-stripe-checkout-flow-using-the-paymentintent-client-secret-returned-from-the-backend-show-success-and-failure-states-after-payment",
+      "featureTitle": "Build an Event Registration page with a form collecting attendee name, email, and ticket quantity. On submission, initiate a Stripe checkout flow using the PaymentIntent client secret returned from the backend. Show success and failure states after payment.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/EventRegistrationFailurePage.tsx",
+        "frontend/src/pages/EventRegistrationPage.tsx",
+        "frontend/src/pages/EventRegistrationSuccessPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "http-outcalls@3.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-artist-portal-page-that-allows-artists-to-1-create-view-their-profile-2-submit-musical-pieces-to-track-toward-the-15-piece-eligibility-requirement-3-view-their-eligibility-status-4-view-their-current-share-count-and-5-purchase-additional-shares-up-to-their-7-share-maximum-via-stripe-if-eligible",
+      "featureTitle": "Build an Artist Portal page that allows artists to: (1) create/view their profile, (2) submit musical pieces to track toward the 15-piece eligibility requirement, (3) view their eligibility status, (4) view their current share count, and (5) purchase additional shares (up to their 7-share maximum) via Stripe if eligible.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/SharePurchaseForm.tsx",
+        "frontend/src/components/SubmitPieceDialog.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/ArtistPortalPage.tsx",
+        "frontend/src/pages/SharePurchaseFailurePage.tsx",
+        "frontend/src/pages/SharePurchaseSuccessPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "http-outcalls@3.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-admin-dashboard-page-accessible-only-to-admin-principals-display-three-tabs-1-shareholders-table-of-all-artists-with-shares-share-count-and-total-paid-2-event-registrations-table-of-all-registrations-with-attendee-info-and-payment-status-3-accounting-log-full-transaction-history-each-tab-must-have-a-download-csv-button-that-exports-that-tab-s-data",
+      "featureTitle": "Build an Admin Dashboard page accessible only to admin principals. Display three tabs: (1) Shareholders — table of all artists with shares, share count, and total paid; (2) Event Registrations — table of all registrations with attendee info and payment status; (3) Accounting Log — full transaction history. Each tab must have a 'Download CSV' button that exports that tab's data.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AdminAccountingTab.tsx",
+        "frontend/src/components/AdminRegistrationsTab.tsx",
+        "frontend/src/components/AdminShareholdersTab.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/AdminDashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "http-outcalls@3.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-distinctive-music-industry-visual-theme-across-the-entire-app-dark-background-with-gold-amber-accent-colors-elegant-serif-or-display-typography-for-headings-and-a-professional-layout-that-evokes-a-premium-media-company-apply-consistently-across-all-pages",
+      "featureTitle": "Apply a distinctive music-industry visual theme across the entire app: dark background with gold/amber accent colors, elegant serif or display typography for headings, and a professional layout that evokes a premium media company. Apply consistently across all pages.",
+      "files": [
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "http-outcalls@3.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

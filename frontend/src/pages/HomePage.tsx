@@ -1,0 +1,188 @@
+import { useNavigate } from '@tanstack/react-router';
+import { Button } from '@/components/ui/button';
+import { Ticket, Mic2, TrendingUp, Shield, Music, Star, Users, Award } from 'lucide-react';
+
+export default function HomePage() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/assets/generated/hero-bg.dim_1440x600.png')" }}
+        />
+        <div className="absolute inset-0 bg-background/75" />
+        <div className="relative container py-24 md:py-36">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary uppercase tracking-widest">
+              <Music className="h-3 w-3" />
+              Sound Waves Publishing &amp; Media
+            </div>
+            <h1 className="font-display text-5xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl">
+              Where Music Meets{' '}
+              <span className="text-primary">Legacy</span>
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              A premier music publishing and media company empowering artists, protecting creative works, and building lasting legacies.
+            </p>
+            <p className="text-sm text-muted-foreground/70 italic">
+              Founded by <span className="text-primary not-italic font-semibold">Mr. Robin T. Harding Smith</span>, Founder &amp; Creator
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center pt-2">
+              <Button
+                size="lg"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8"
+                onClick={() => navigate({ to: '/event-registration' })}
+              >
+                <Ticket className="mr-2 h-5 w-5" />
+                Register for Events
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-primary/50 text-primary hover:bg-primary/10 font-semibold px-8"
+                onClick={() => navigate({ to: '/artist-portal' })}
+              >
+                <Mic2 className="mr-2 h-5 w-5" />
+                Artist Portal
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="border-y border-border bg-card">
+        <div className="container py-8">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            {[
+              { label: 'Total Shares', value: '10,000,000', icon: TrendingUp },
+              { label: 'Share Price', value: '$1.00', icon: Star },
+              { label: 'Artist Shares Available', value: '3,000,000', icon: Users },
+              { label: 'Free Shares (First 100)', value: '1 per Artist', icon: Award },
+            ].map(({ label, value, icon: Icon }) => (
+              <div key={label} className="text-center space-y-1">
+                <Icon className="h-5 w-5 text-primary mx-auto mb-2" />
+                <p className="font-display text-2xl font-bold text-primary">{value}</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-20">
+        <div className="container">
+          <div className="text-center mb-12 space-y-3">
+            <h2 className="font-display text-4xl font-bold">What We Offer</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Sound Waves Publishing &amp; Media provides a complete ecosystem for artists and music industry professionals.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              {
+                icon: Ticket,
+                title: 'Event Registration',
+                description: 'Register for exclusive Sound Waves events and performances. Secure your tickets with seamless Stripe payment processing.',
+                to: '/event-registration' as const,
+                cta: 'Register Now',
+              },
+              {
+                icon: Mic2,
+                title: 'Artist Portal',
+                description: 'Submit your musical pieces, track eligibility, and purchase shares in Sound Waves Publishing & Media. First 100 eligible artists receive a free share.',
+                to: '/artist-portal' as const,
+                cta: 'Join as Artist',
+              },
+              {
+                icon: Shield,
+                title: 'Ownership & Equity',
+                description: 'Participating artists can own up to 7 shares of Sound Waves Publishing & Media at $1.00 per share. Build your stake in the company.',
+                to: '/artist-portal' as const,
+                cta: 'Learn More',
+              },
+            ].map(({ icon: Icon, title, description, to, cta }) => (
+              <div
+                key={title}
+                className="group rounded-lg border border-border bg-card p-6 space-y-4 hover:border-primary/50 hover:shadow-gold transition-all cursor-pointer"
+                onClick={() => navigate({ to })}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <Icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-display text-xl font-semibold">{title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+                <button className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+                  {cta} →
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ownership Structure */}
+      <section className="border-t border-border bg-card py-20">
+        <div className="container">
+          <div className="text-center mb-12 space-y-3">
+            <h2 className="font-display text-4xl font-bold">Ownership Structure</h2>
+            <p className="text-muted-foreground">
+              Sound Waves Publishing &amp; Media — S-Corporation
+            </p>
+          </div>
+          <div className="max-w-2xl mx-auto space-y-4">
+            {[
+              { label: 'RTS Enterprises (Robin T. Harding Smith)', pct: 70, color: 'bg-primary' },
+              { label: 'Mildred Harding Estate & Small Business Trust (ESBT)', pct: 20, color: 'bg-primary/60' },
+              { label: '508(c)(1)(A) Faith-Based Organization', pct: 10, color: 'bg-primary/30' },
+            ].map(({ label, pct, color }) => (
+              <div key={label} className="space-y-1.5">
+                <div className="flex justify-between text-sm">
+                  <span className="text-foreground font-medium">{label}</span>
+                  <span className="text-primary font-bold">{pct}%</span>
+                </div>
+                <div className="h-2 rounded-full bg-muted overflow-hidden">
+                  <div className={`h-full rounded-full ${color} transition-all`} style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            ))}
+            <p className="text-xs text-muted-foreground pt-2 text-center">
+              RTS Enterprises is a privately held for-profit business entity serving as the parent holding company.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20">
+        <div className="container text-center space-y-6">
+          <h2 className="font-display text-4xl font-bold">Ready to Join?</h2>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            Submit 15 musical pieces to become an eligible artist and purchase shares in Sound Waves Publishing &amp; Media.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+              onClick={() => navigate({ to: '/artist-portal' })}
+            >
+              Get Started as an Artist
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-border hover:border-primary/50"
+              onClick={() => navigate({ to: '/event-registration' })}
+            >
+              View Upcoming Events
+            </Button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

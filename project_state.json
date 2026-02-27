@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Building Sound Waves Publishing and Media app - an S-corporation owned by RTS Enterprises (Research Technological Systems Enterprises, 70%), Mildred Harding Estate and Small Business Trust ESBT (20%), and a 508(c)(1)(A) faith-based organization (10%). The app includes event registration checkout with Stripe payment integration, stock/equity trading for participating artists, admin dashboard with CSV export, and Motoko backend on the Internet Computer.",
+  "architectural_notes": [
+    "RTS Enterprises (Research Technological Systems Enterprises) is the parent holding company founded by Mr. Robin T. Harding Smith as CEO - privately held for-profit entity owning 70% of Soundwave Publishing & Media S-corp",
+    "Corporate structure: RTS Enterprises (70%), Mildred Harding Estate and Small Business Trust ESBT (20%), 508(c)(1)(A) faith-based organization (10%)",
+    "Mildred Harding Trust must elect ESBT status; Mr. Robin T. Harding Smith serves as both Trustee and Primary Beneficiary",
+    "Backend uses Motoko on the Internet Computer (ICP) for storing registrations, share ownership, accounting records, and transaction data",
+    "Stripe integration requires API keys added post-deployment and webhook URL configured in Stripe dashboard"
+  ],
+  "known_issues": [
+    "Build attempts for the event registration checkout system have repeatedly failed with AI errors; multiple rebuild attempts made"
+  ],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Sound Waves Publishing and Media logo — stylized sound wave graphic with musical note motif in gold on dark background (swpm-logo.dim_400x200.png)\n- Hero background — abstract dark studio atmosphere with subtle golden light rays and music waveform patterns (hero-bg.dim_1440x600.png)",
+  "existing_features": [
+    {
+      "id": "feature-build-a-public-facing-home-page-for-sound-waves-publishing-and-media-with-a-hero-section-displaying-the-company-name-founder-attribution-mr-robin-t-harding-smith-founder-creator-and-navigation-links-to-event-registration-and-artist-share-purchase-sections",
+      "title": "Build a public-facing home page for Sound Waves Publishing and Media with a hero section displaying the company name, founder attribution (Mr. Robin T. Harding Smith, Founder & Creator), and navigation links to Event Registration and Artist Share Purchase sections.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-event-registration-page-with-a-form-collecting-attendee-name-email-and-ticket-quantity-on-submission-initiate-a-stripe-checkout-flow-using-the-paymentintent-client-secret-returned-from-the-backend-show-success-and-failure-states-after-payment",
+      "title": "Build an Event Registration page with a form collecting attendee name, email, and ticket quantity. On submission, initiate a Stripe checkout flow using the PaymentIntent client secret returned from the backend. Show success and failure states after payment.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-artist-portal-page-that-allows-artists-to-1-create-view-their-profile-2-submit-musical-pieces-to-track-toward-the-15-piece-eligibility-requirement-3-view-their-eligibility-status-4-view-their-current-share-count-and-5-purchase-additional-shares-up-to-their-7-share-maximum-via-stripe-if-eligible",
+      "title": "Build an Artist Portal page that allows artists to: (1) create/view their profile, (2) submit musical pieces to track toward the 15-piece eligibility requirement, (3) view their eligibility status, (4) view their current share count, and (5) purchase additional shares (up to their 7-share maximum) via Stripe if eligible.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-admin-dashboard-page-accessible-only-to-admin-principals-display-three-tabs-1-shareholders-table-of-all-artists-with-shares-share-count-and-total-paid-2-event-registrations-table-of-all-registrations-with-attendee-info-and-payment-status-3-accounting-log-full-transaction-history-each-tab-must-have-a-download-csv-button-that-exports-that-tab-s-data",
+      "title": "Build an Admin Dashboard page accessible only to admin principals. Display three tabs: (1) Shareholders — table of all artists with shares, share count, and total paid; (2) Event Registrations — table of all registrations with attendee info and payment status; (3) Accounting Log — full transaction history. Each tab must have a 'Download CSV' button that exports that tab's data.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-distinctive-music-industry-visual-theme-across-the-entire-app-dark-background-with-gold-amber-accent-colors-elegant-serif-or-display-typography-for-headings-and-a-professional-layout-that-evokes-a-premium-media-company-apply-consistently-across-all-pages",
+      "title": "Apply a distinctive music-industry visual theme across the entire app: dark background with gold/amber accent colors, elegant serif or display typography for headings, and a professional layout that evokes a premium media company. Apply consistently across all pages.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Event registration checkout with attendee name, email, ticket quantity, and Stripe payment processing",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Stock/equity feature: 10M total shares at $1.00 starting price, 70% founder (Robin T. Harding Smith), 30% available to artists, min 1 / max 7 shares per artist, first 100 artists get 1 free share, artist eligibility requires 15 musical piece submissions",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Admin dashboard to view shareholders, transactions, and registrations with CSV export for accounting/transaction data",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Stripe webhook endpoint for payment confirmations and post-deployment API key configuration",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Motoko backend storing registration data, share ownership records, accounting records, and Caffeine yearly cost tracking",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Create a Motoko backend actor that stores and manages all core data: artist profiles (with eligibility status), share ownership records, event registrations, payment transactions, and accounting entries. Initialize the share structure with 10,000,000 total shares at $1.00 starting price: 7,000,000 pre-allocated to founder Mr. Robin T. Harding Smith (70%), and 3,000,000 available for artist purchase (30%).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Implement artist eligibility logic: an artist must submit 15 musical pieces to become eligible to purchase shares. Track the count of submitted pieces per artist profile. Once an artist reaches 15 submissions, mark them as eligible.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Implement share purchase logic: eligible artists can purchase between 1 and 7 shares at $1.00 each via Stripe. The first 100 eligible artists automatically receive 1 free share (no payment required for that share). Enforce a hard cap of 7 shares per artist across all purchases combined.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Integrate Stripe payment processing for both event ticket purchases and share purchases. Store Stripe secret key via an admin-only configuration endpoint. Create Stripe PaymentIntents for ticket and share purchases and return client secrets to the frontend. Implement a Stripe webhook endpoint to confirm payments and update registration/share ownership records accordingly.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Implement admin backend functions: query all shareholders with their share counts, query all event registrations, query full transaction/accounting log, and export data as CSV-formatted text. Admin access must be restricted to authorized principals.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Sound Waves Publishing and Media",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

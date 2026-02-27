@@ -1,0 +1,216 @@
+{
+  "kind": "build_request",
+  "title": "Sound Waves Publishing and Media — Full App Build",
+  "projectName": "Sound Waves Publishing",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a Motoko backend actor that stores and manages all core data: artist profiles (with eligibility status), share ownership records, event registrations, payment transactions, and accounting entries. Initialize the share structure with 10,000,000 total shares at $1.00 starting price: 7,000,000 pre-allocated to founder Mr. Robin T. Harding Smith (70%), and 3,000,000 available for artist purchase (30%).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-12",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend stores artist profiles with name, email, principal ID, submitted musical pieces count, and eligibility flag",
+        "Share ownership table records principal, shares owned, purchase price, and timestamp",
+        "Founder allocation of 7,000,000 shares is pre-seeded and immutable via normal artist purchase flows",
+        "3,000,000 shares are available for artist purchases",
+        "Current share price is stored and readable",
+        "Event registration records store attendee name, email, ticket quantity, payment status, and Stripe payment intent ID",
+        "Accounting/transaction log stores all financial events with type, amount, timestamp, and associated principal"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement artist eligibility logic: an artist must submit 15 musical pieces to become eligible to purchase shares. Track the count of submitted pieces per artist profile. Once an artist reaches 15 submissions, mark them as eligible.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-12"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Artist profile tracks submitted_pieces count",
+        "Artists with submitted_pieces >= 15 are flagged as eligible",
+        "Share purchase calls reject ineligible artists with a clear error message",
+        "Eligibility status is queryable from the frontend"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement share purchase logic: eligible artists can purchase between 1 and 7 shares at $1.00 each via Stripe. The first 100 eligible artists automatically receive 1 free share (no payment required for that share). Enforce a hard cap of 7 shares per artist across all purchases combined.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-12",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Artists can only buy between 1 and 7 shares total (lifetime cap)",
+        "Attempting to exceed 7 shares returns an error",
+        "The first 100 artists to qualify receive 1 free share credited automatically upon eligibility",
+        "Free share recipients tracked by a counter capped at 100",
+        "Share purchases beyond the free share go through Stripe payment",
+        "Available share pool decreases with each purchase; purchases fail if pool is exhausted"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Integrate Stripe payment processing for both event ticket purchases and share purchases. Store Stripe secret key via an admin-only configuration endpoint. Create Stripe PaymentIntents for ticket and share purchases and return client secrets to the frontend. Implement a Stripe webhook endpoint to confirm payments and update registration/share ownership records accordingly.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin can configure Stripe secret key via a protected backend call",
+        "Backend creates PaymentIntents for ticket purchases (quantity × ticket price)",
+        "Backend creates PaymentIntents for share purchases (shares × $1.00)",
+        "Webhook endpoint receives Stripe events and marks transactions as confirmed",
+        "Share ownership is only finalized upon successful payment confirmation",
+        "Registration status updated to 'paid' upon webhook confirmation"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement admin backend functions: query all shareholders with their share counts, query all event registrations, query full transaction/accounting log, and export data as CSV-formatted text. Admin access must be restricted to authorized principals.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin-only query returns all artist shareholders with name, email, shares owned, and total paid",
+        "Admin-only query returns all event registrations with attendee info and payment status",
+        "Admin-only query returns full accounting log",
+        "CSV export function returns a comma-separated string for shareholder and transaction data",
+        "Non-admin calls to admin functions return an authorization error"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Build a public-facing home page for Sound Waves Publishing and Media with a hero section displaying the company name, founder attribution (Mr. Robin T. Harding Smith, Founder & Creator), and navigation links to Event Registration and Artist Share Purchase sections.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Home page displays 'Sound Waves Publishing and Media' as the primary heading",
+        "Founder credit 'Mr. Robin T. Harding Smith, Founder & Creator' is visible",
+        "Navigation links to Event Registration and Artist Portal pages",
+        "Page is responsive and visually polished"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Build an Event Registration page with a form collecting attendee name, email, and ticket quantity. On submission, initiate a Stripe checkout flow using the PaymentIntent client secret returned from the backend. Show success and failure states after payment.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Form fields: full name, email address, ticket quantity (number input, min 1)",
+        "Order summary shows total price before payment",
+        "Stripe Elements card input embedded in the page",
+        "Successful payment shows confirmation screen with registration details",
+        "Payment failure shows error message with retry option"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Build an Artist Portal page that allows artists to: (1) create/view their profile, (2) submit musical pieces to track toward the 15-piece eligibility requirement, (3) view their eligibility status, (4) view their current share count, and (5) purchase additional shares (up to their 7-share maximum) via Stripe if eligible.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-12",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Artists can log in via Internet Identity",
+        "Profile section shows name, email, submitted pieces count, and eligibility status",
+        "Button/form to submit a new musical piece (increments piece count)",
+        "Progress indicator shows pieces submitted out of 15 required",
+        "Share ownership section shows current shares held",
+        "Share purchase form (quantity selector 1–7 minus already owned) is visible only to eligible artists",
+        "First 100 eligible artists see a 'You qualify for 1 free share' notice",
+        "Stripe payment flow initiated for paid share purchases",
+        "Errors shown clearly if share cap is reached or eligibility not met"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Build an Admin Dashboard page accessible only to admin principals. Display three tabs: (1) Shareholders — table of all artists with shares, share count, and total paid; (2) Event Registrations — table of all registrations with attendee info and payment status; (3) Accounting Log — full transaction history. Each tab must have a 'Download CSV' button that exports that tab's data.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin dashboard is only accessible to authenticated admin users",
+        "Shareholders tab lists artist name, email, shares owned, total paid, and free share status",
+        "Registrations tab lists attendee name, email, tickets, total paid, and payment status",
+        "Accounting tab lists transaction type, amount, date, and associated user",
+        "Each tab has a working CSV download button",
+        "Non-admin users are redirected or shown an access denied message"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Apply a distinctive music-industry visual theme across the entire app: dark background with gold/amber accent colors, elegant serif or display typography for headings, and a professional layout that evokes a premium media company. Apply consistently across all pages.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-14"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dark background (near-black or deep charcoal) used as base throughout",
+        "Gold or amber accent color used for buttons, highlights, and key UI elements",
+        "Heading typography uses an elegant display or serif font",
+        "Consistent color palette and spacing across Home, Event Registration, Artist Portal, and Admin pages",
+        "Theme is responsive and readable on mobile and desktop"
+      ]
+    }
+  ],
+  "constraints": [
+    "All backend logic must remain in a single Motoko actor (backend/main.mo)",
+    "Stripe secret key must only be stored in the backend and never exposed to the frontend",
+    "Founder's 7,000,000 shares must never be purchasable or transferable via artist purchase flows",
+    "Share purchases must only be finalized after Stripe payment confirmation via webhook",
+    "Do not edit any files listed in frontend.immutablePaths"
+  ],
+  "nonGoals": [
+    "Share resale or secondary market trading between artists",
+    "Email notifications or SMTP integration",
+    "Mobile app (React Native or Flutter)",
+    "External databases — all data stored in Motoko stable variables",
+    "Social login (Facebook, GitHub) — only Internet Identity supported",
+    "Real-time price fluctuation of shares (starting price is fixed at $1.00)"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Sound Waves Publishing and Media logo — stylized sound wave graphic with musical note motif in gold on dark background (swpm-logo.dim_400x200.png)",
+      "Hero background — abstract dark studio atmosphere with subtle golden light rays and music waveform patterns (hero-bg.dim_1440x600.png)"
+    ],
+    "edits": []
+  }
+}
