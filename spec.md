@@ -1,23 +1,71 @@
-# Specification
+# Sound Wave Publishing & Media
 
-## Summary
-**Goal:** Build a full-stack Sound Waves Publishing and Media application with artist share ownership, event registration, Stripe payments, and an admin dashboard — all with a premium music-industry visual theme.
+## Current State
 
-**Planned changes:**
+The platform already has:
+- Artist profiles with multi-media galleries (music, image, video, text media types)
+- Copyright registration and trademark management
+- Score sheet upload/download and sales
+- Lightscribe Design & Labeling Suite
+- ElasticStage integration (Phases 1 & 2)
+- Event registration with Stripe checkout
+- Share/equity system (Founder, Preferred, Common) with certificates, marketplace, and earnings dashboard
+- Admin bookkeeping (invoices, payouts, membership fees)
+- Access control with user/admin/guest roles
+- MediaType enum: `#music | #image | #video | #text`
+- MediaMetadata with title, description, mediaType, copyrightInfo, licensingOptions, fileReference
 
-### Backend (Motoko)
-- Create a single Motoko actor storing artist profiles (name, email, principal, submitted pieces count, eligibility flag), share ownership records, event registrations, payment transactions, and accounting entries
-- Initialize 10,000,000 total shares: 7,000,000 pre-allocated to founder Mr. Robin T. Harding Smith (immutable), 3,000,000 available for artist purchase at $1.00 each
-- Implement eligibility logic: artists must submit 15 musical pieces to unlock share purchasing
-- Implement share purchase logic: 1–7 shares lifetime cap per artist; first 100 eligible artists receive 1 free share automatically; remaining shares go through Stripe
-- Integrate Stripe: admin-configurable secret key, PaymentIntents for ticket and share purchases, webhook endpoint to confirm payments and finalize ownership/registration records
-- Admin-only functions: query shareholders, event registrations, and full accounting log; CSV export for each dataset; access restricted to authorized principals
+## Requested Changes (Diff)
 
-### Frontend
-- **Home page**: Hero section with "Sound Waves Publishing and Media" heading, founder credit "Mr. Robin T. Harding Smith, Founder & Creator", and navigation to Event Registration and Artist Portal
-- **Event Registration page**: Form for name, email, ticket quantity; order summary; embedded Stripe Elements card input; success and failure states
-- **Artist Portal page**: Internet Identity login; profile view with piece submission and progress indicator (X/15); eligibility status; share ownership display; share purchase form (eligible artists only); free share notice for first 100 qualifiers; Stripe payment flow for paid shares
-- **Admin Dashboard page**: Admin-only access; three tabs — Shareholders, Event Registrations, Accounting Log — each with a CSV download button; non-admins shown access denied
-- **Visual theme**: Dark/near-black background, gold/amber accents, elegant serif/display headings, consistent responsive layout across all pages
+### Add
 
-**User-visible outcome:** Visitors can register for events and pay via Stripe; artists can log in, build their profile, track submission progress, and purchase company shares once eligible; admins can view and export all shareholder, registration, and accounting data from a protected dashboard.
+**Backend:**
+- Extended `ArtworkCategory` variant type to tag media with fine-grained art categories:
+  - `#narrativeArts` — written narrative works, short stories, novellas
+  - `#poetry` — poems and verse
+  - `#photography` — photographic works
+  - `#artDesigns` — digital and graphic art designs
+  - `#artsAndCrafts` — handcrafted and mixed-media works
+  - `#cinemaCreation` — films, short films, video art
+  - `#musicalWorks` — musical compositions
+  - `#scoreSheets` — sheet music and musical scores
+- Extended `MediaMetadata` to include optional `artworkCategory: ?ArtworkCategory` and optional `saleFormats: [SaleFormat]` fields
+- `SaleFormat` type: `{ formatType: Text; price: Nat; description: Text }` covering prints, originals, digital downloads
+- New query: `getMediaByCategory(category: ArtworkCategory): [MediaMetadata]`
+- New query: `getAllGalleryMedia(): [MediaMetadata]` (returns all media for public gallery browsing)
+- New query: `getArtistWorksByCategory(artistId: Text, category: ArtworkCategory): [MediaMetadata]`
+- New update: `uploadArtwork(metadata: MediaMetadata): ()` (alias for uploadMedia, accepts extended metadata)
+
+**Frontend pages:**
+- `/galleries` — Public gallery landing page listing all 8 art categories with preview cards
+- `/galleries/:category` — Category gallery page (grid of works, filter by artist, sort by date/price)
+- `/galleries/:category/:mediaId` — Individual artwork detail page (purchase, license, copyright info)
+- Updated artist profile page (`/artist/:artistId`) — show category tabs for each art type the artist has works in
+- Updated artist dashboard (`/dashboard`) — upload wizard with category selection, sale format options, and copyright registration
+
+**Homepage updates:**
+- Hero tagline updated to: *"Changing the view of a starving artist."*
+- New "Explore Our Galleries" section with visual cards for each art category
+- Updated features section to reflect all art disciplines
+
+### Modify
+
+- `MediaMetadata` backend type: add `artworkCategory` optional field and `saleFormats` array
+- `ArtistProfilePage`: add category tabs and per-category work grids
+- `ArtistDashboard`: extend upload form with category selector and sale format inputs
+- `HomePage`: update hero headline/tagline and add gallery discovery section
+- `Header`: add "Galleries" nav link with dropdown for category navigation
+
+### Remove
+
+- Nothing removed; all existing features preserved
+
+## Implementation Plan
+
+1. **Backend (Motoko)**: Add `ArtworkCategory` and `SaleFormat` types; extend `MediaMetadata`; add `getMediaByCategory`, `getAllGalleryMedia`, `getArtistWorksByCategory` queries
+2. **Generate hero image**: Dark premium gallery aesthetic for homepage banner
+3. **Generate art category images**: Atmospheric thumbnails for each of the 8 categories
+4. **Frontend - Gallery pages**: `/galleries`, `/galleries/$category`, individual artwork detail
+5. **Frontend - Homepage**: Update hero with new tagline, add gallery cards section
+6. **Frontend - Artist pages**: Add category tabs to profile, extend dashboard upload form
+7. **Frontend - Header**: Add Galleries nav link/dropdown
