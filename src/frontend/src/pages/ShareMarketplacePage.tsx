@@ -1,3 +1,4 @@
+import SwpmTickerChip from "@/components/SwpmTickerChip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -157,6 +158,7 @@ export default function ShareMarketplacePage() {
           <h1 className="font-display text-4xl font-bold tracking-tight">
             Share Marketplace
           </h1>
+          <SwpmTickerChip />
           <p className="text-muted-foreground">
             Purchase equity shares in Sound Waves Publishing &amp; Media. Common
             Shares are available to eligible artists who have submitted 15

@@ -1,3 +1,4 @@
+import SwpmTickerChip from "@/components/SwpmTickerChip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -155,6 +156,7 @@ export default function EarningsDashboardPage() {
           <h1 className="font-display text-4xl font-bold tracking-tight">
             Earnings Dashboard
           </h1>
+          <SwpmTickerChip />
           <p className="text-muted-foreground">
             Track your dividend earnings, claim payouts, and review your
             distribution history from Sound Waves Publishing &amp; Media.

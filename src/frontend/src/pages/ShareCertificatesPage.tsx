@@ -1,3 +1,4 @@
+import SwpmTickerChip from "@/components/SwpmTickerChip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -149,6 +150,7 @@ export default function ShareCertificatesPage() {
           <h1 className="font-display text-5xl font-bold tracking-tight">
             Equity Share Certificates
           </h1>
+          <SwpmTickerChip className="mx-auto" />
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Sound Waves Publishing &amp; Media — Authentic share certificates
             representing real equity ownership with tiered dividend rates and

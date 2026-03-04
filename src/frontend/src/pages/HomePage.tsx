@@ -95,7 +95,7 @@ export default function HomePage() {
               Where Music Meets <span className="text-primary">Legacy</span>
             </h1>
             <p className="font-serif-body text-lg italic text-primary/90">
-              "Changing the view of a starving artist."
+              "Where Music and Art Meet Legacy"
             </p>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
               A premier publishing and media company empowering artists across

@@ -12,6 +12,7 @@ import {
   Award,
   BarChart3,
   BookOpen,
+  Building2,
   Camera,
   ChevronDown,
   Feather,
@@ -196,6 +197,14 @@ export default function Header() {
               >
                 <TrendingUp className="mr-2 h-4 w-4 text-primary" />
                 Earnings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                data-ocid="header.shares.investor_relations.link"
+                onClick={() => navigate({ to: "/shares/investor-relations" })}
+              >
+                <Building2 className="mr-2 h-4 w-4 text-primary" />
+                Investor Relations
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -389,6 +398,17 @@ export default function Header() {
                   className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <TrendingUp className="h-4 w-4" /> Earnings
+                </button>
+                <button
+                  type="button"
+                  data-ocid="header.shares.investor_relations.link"
+                  onClick={() => {
+                    navigate({ to: "/shares/investor-relations" });
+                    setMobileOpen(false);
+                  }}
+                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Building2 className="h-4 w-4" /> Investor Relations
                 </button>
               </div>
             </div>

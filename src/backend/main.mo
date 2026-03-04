@@ -15,9 +15,9 @@ import Int "mo:core/Int";
 import Nat "mo:core/Nat";
 import Time "mo:core/Time";
 import Array "mo:core/Array";
-import Migration "migration";
 
-(with migration = Migration.run)
+
+
 actor {
   include MixinStorage();
 

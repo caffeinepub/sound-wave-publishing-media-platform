@@ -134,7 +134,7 @@ export default function GalleriesPage() {
             </h1>
 
             <p className="font-serif-body text-xl italic text-primary/90 mb-4">
-              "Changing the view of a starving artist."
+              "Where Music and Art Meet Legacy"
             </p>
 
             <p className="text-muted-foreground text-base max-w-xl mx-auto leading-relaxed">

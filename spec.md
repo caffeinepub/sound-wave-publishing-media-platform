@@ -1,71 +1,42 @@
 # Sound Wave Publishing & Media
 
 ## Current State
+The app has three shares pages:
+- `/shares/certificates` — ShareCertificatesPage: gallery of Founder, Preferred, and Common share certificates with tier details and a modal view.
+- `/shares/marketplace` — ShareMarketplacePage: tier comparison table, buy/sell interface for Common shares via Stripe, price history.
+- `/shares/earnings` — EarningsDashboardPage: dividend stats, claimable balance, payout history, dividend rate reference.
 
-The platform already has:
-- Artist profiles with multi-media galleries (music, image, video, text media types)
-- Copyright registration and trademark management
-- Score sheet upload/download and sales
-- Lightscribe Design & Labeling Suite
-- ElasticStage integration (Phases 1 & 2)
-- Event registration with Stripe checkout
-- Share/equity system (Founder, Preferred, Common) with certificates, marketplace, and earnings dashboard
-- Admin bookkeeping (invoices, payouts, membership fees)
-- Access control with user/admin/guest roles
-- MediaType enum: `#music | #image | #video | #text`
-- MediaMetadata with title, description, mediaType, copyrightInfo, licensingOptions, fileReference
+None of these pages currently display the proposed stock ticker symbol **SWPM** for Sound Waves Publishing & Media.
+
+There is no Investor Relations page in the app.
 
 ## Requested Changes (Diff)
 
 ### Add
-
-**Backend:**
-- Extended `ArtworkCategory` variant type to tag media with fine-grained art categories:
-  - `#narrativeArts` — written narrative works, short stories, novellas
-  - `#poetry` — poems and verse
-  - `#photography` — photographic works
-  - `#artDesigns` — digital and graphic art designs
-  - `#artsAndCrafts` — handcrafted and mixed-media works
-  - `#cinemaCreation` — films, short films, video art
-  - `#musicalWorks` — musical compositions
-  - `#scoreSheets` — sheet music and musical scores
-- Extended `MediaMetadata` to include optional `artworkCategory: ?ArtworkCategory` and optional `saleFormats: [SaleFormat]` fields
-- `SaleFormat` type: `{ formatType: Text; price: Nat; description: Text }` covering prints, originals, digital downloads
-- New query: `getMediaByCategory(category: ArtworkCategory): [MediaMetadata]`
-- New query: `getAllGalleryMedia(): [MediaMetadata]` (returns all media for public gallery browsing)
-- New query: `getArtistWorksByCategory(artistId: Text, category: ArtworkCategory): [MediaMetadata]`
-- New update: `uploadArtwork(metadata: MediaMetadata): ()` (alias for uploadMedia, accepts extended metadata)
-
-**Frontend pages:**
-- `/galleries` — Public gallery landing page listing all 8 art categories with preview cards
-- `/galleries/:category` — Category gallery page (grid of works, filter by artist, sort by date/price)
-- `/galleries/:category/:mediaId` — Individual artwork detail page (purchase, license, copyright info)
-- Updated artist profile page (`/artist/:artistId`) — show category tabs for each art type the artist has works in
-- Updated artist dashboard (`/dashboard`) — upload wizard with category selection, sale format options, and copyright registration
-
-**Homepage updates:**
-- Hero tagline updated to: *"Changing the view of a starving artist."*
-- New "Explore Our Galleries" section with visual cards for each art category
-- Updated features section to reflect all art disciplines
+- **SWPM ticker badge/label** displayed prominently on all three shares pages (certificates, marketplace, earnings dashboard):
+  - Shown in the page header area as a styled ticker chip (e.g., "SWPM · $1.00 · Privately Held")
+  - Also shown in the Share Structure Overview table header on the certificates page
+  - Also shown in the marketplace page header
+- **Investor Relations page** at `/shares/investor-relations`:
+  - Company overview: Sound Waves Publishing & Media, proposed ticker SWPM, parent company RTS Enterprises, founder Mr. Robin T. Harding Smith
+  - Share structure summary (10M total shares, 70/20/10% ownership breakdown including ESBT and 508(c)(1)(A) faith-based org)
+  - Dividend rates by tier
+  - Disclaimer section: shares are privately held and not yet listed on a public exchange; pursuing future listing; investors should consult a securities attorney
+  - Contact / IR inquiry section
+- **Route** for the new Investor Relations page added to App.tsx
+- **Navigation link** to `/shares/investor-relations` added to the Shares dropdown in the Header
 
 ### Modify
-
-- `MediaMetadata` backend type: add `artworkCategory` optional field and `saleFormats` array
-- `ArtistProfilePage`: add category tabs and per-category work grids
-- `ArtistDashboard`: extend upload form with category selector and sale format inputs
-- `HomePage`: update hero headline/tagline and add gallery discovery section
-- `Header`: add "Galleries" nav link with dropdown for category navigation
+- ShareCertificatesPage: add SWPM ticker chip in page header
+- ShareMarketplacePage: add SWPM ticker chip in page header
+- EarningsDashboardPage: add SWPM ticker chip in page header
+- Header: add "Investor Relations" link under the Shares menu dropdown
 
 ### Remove
-
-- Nothing removed; all existing features preserved
+- Nothing removed
 
 ## Implementation Plan
-
-1. **Backend (Motoko)**: Add `ArtworkCategory` and `SaleFormat` types; extend `MediaMetadata`; add `getMediaByCategory`, `getAllGalleryMedia`, `getArtistWorksByCategory` queries
-2. **Generate hero image**: Dark premium gallery aesthetic for homepage banner
-3. **Generate art category images**: Atmospheric thumbnails for each of the 8 categories
-4. **Frontend - Gallery pages**: `/galleries`, `/galleries/$category`, individual artwork detail
-5. **Frontend - Homepage**: Update hero with new tagline, add gallery cards section
-6. **Frontend - Artist pages**: Add category tabs to profile, extend dashboard upload form
-7. **Frontend - Header**: Add Galleries nav link/dropdown
+1. Create `InvestorRelationsPage.tsx` at `src/frontend/src/pages/InvestorRelationsPage.tsx` with company overview, share structure, dividend rates, disclaimer, and contact section.
+2. Add SWPM ticker chip component (inline, reusable styled span/badge) and place it in the header area of ShareCertificatesPage, ShareMarketplacePage, and EarningsDashboardPage.
+3. Register `/shares/investor-relations` route in App.tsx and import InvestorRelationsPage.
+4. Add "Investor Relations" link to the Shares dropdown in Header.tsx.

@@ -214,23 +214,24 @@ export function getSecretParameter(paramName: string): string | null {
 }
 
 /**
- * Builds a URL path with persisted parameters from sessionStorage appended as query params.
+ * Builds a URL path with selected persisted parameters appended as query string.
+ * Looks up each param name from the current URL or sessionStorage.
  *
- * @param basePath - The base URL path (e.g. "/payment-success")
- * @param paramNames - List of parameter names to look up from sessionStorage
- * @returns The path with appended query string for any found params
+ * @param path - The base path (e.g. "/payment-success")
+ * @param paramNames - List of parameter names to append if found
+ * @returns The path with any found params appended (e.g. "/payment-success?ref=elasticstage")
  */
 export function buildUrlWithPersistedParams(
-  basePath: string,
+  path: string,
   paramNames: string[],
 ): string {
   const params = new URLSearchParams();
   for (const name of paramNames) {
-    const value = getSessionParameter(name);
-    if (value) {
+    const value = getPersistedUrlParameter(name);
+    if (value !== null) {
       params.set(name, value);
     }
   }
-  const query = params.toString();
-  return query ? `${basePath}?${query}` : basePath;
+  const queryString = params.toString();
+  return queryString ? `${path}?${queryString}` : path;
 }

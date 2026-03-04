@@ -41,6 +41,7 @@ import GalleriesPage from "./pages/GalleriesPage";
 import GalleryArtworkDetailPage from "./pages/GalleryArtworkDetailPage";
 import GalleryCategoryPage from "./pages/GalleryCategoryPage";
 import HomePage from "./pages/HomePage";
+import InvestorRelationsPage from "./pages/InvestorRelationsPage";
 import MediaDetailPage from "./pages/MediaDetailPage";
 import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
@@ -220,6 +221,11 @@ const shareMarketplaceRoute = createRoute({
   path: "/shares/marketplace",
   component: ShareMarketplacePage,
 });
+const investorRelationsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/shares/investor-relations",
+  component: InvestorRelationsPage,
+});
 const galleriesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/galleries",
@@ -258,6 +264,7 @@ const routeTree = rootRoute.addChildren([
   shareCertificatesRoute,
   earningsDashboardRoute,
   shareMarketplaceRoute,
+  investorRelationsRoute,
   galleriesRoute,
   galleryCategoryRoute,
   galleryArtworkDetailRoute,
