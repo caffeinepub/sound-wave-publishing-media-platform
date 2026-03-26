@@ -162,7 +162,8 @@ export default function ShareMarketplacePage() {
           <p className="text-muted-foreground">
             Purchase equity shares in Sound Waves Publishing &amp; Media. Common
             Shares are available to eligible artists who have submitted 15
-            musical pieces.
+            pieces across any art discipline (music, visual art, photography,
+            poetry, cinema, narrative arts, arts & crafts, or score sheets).
           </p>
         </motion.div>
 
@@ -391,8 +392,9 @@ export default function ShareMarketplacePage() {
 
                     <p className="text-xs text-muted-foreground flex items-start gap-1.5">
                       <Info className="h-3 w-3 mt-0.5 shrink-0" />
-                      Must have submitted 15 musical pieces to be eligible.
-                      First 100 eligible artists receive 1 free share.
+                      Must have submitted 15 pieces across any art discipline to
+                      be eligible. First 100 eligible artists receive 1 free
+                      share.
                     </p>
                   </div>
 

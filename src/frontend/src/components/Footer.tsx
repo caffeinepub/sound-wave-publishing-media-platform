@@ -1,10 +1,12 @@
 import { Music } from "lucide-react";
+import { useTranslation } from "../lib/i18n";
 
 export default function Footer() {
   const year = new Date().getFullYear();
   const appId = encodeURIComponent(
     window.location.hostname || "sound-waves-publishing",
   );
+  const { t } = useTranslation();
 
   return (
     <footer className="border-t border-border bg-background">
@@ -19,11 +21,10 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              A premier music publishing and media company dedicated to
-              empowering artists and protecting creative works.
+              {t("footer.description")}
             </p>
             <p className="text-xs text-muted-foreground">
-              Founded by{" "}
+              {t("footer.founded")}{" "}
               <span className="text-primary font-medium">
                 Mr. Robin T. Harding Smith
               </span>
@@ -33,12 +34,12 @@ export default function Footer() {
           {/* Links */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Navigation
+              {t("footer.navigation")}
             </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <a href="/" className="hover:text-primary transition-colors">
-                  Home
+                  {t("nav.home")}
                 </a>
               </li>
               <li>
@@ -46,7 +47,7 @@ export default function Footer() {
                   href="/event-registration"
                   className="hover:text-primary transition-colors"
                 >
-                  Event Registration
+                  {t("event.title")}
                 </a>
               </li>
               <li>
@@ -54,7 +55,7 @@ export default function Footer() {
                   href="/artist-portal"
                   className="hover:text-primary transition-colors"
                 >
-                  Artist Portal
+                  {t("nav.artistPortal")}
                 </a>
               </li>
             </ul>
@@ -63,14 +64,13 @@ export default function Footer() {
           {/* Legal */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Legal
+              {t("footer.legal")}
             </h4>
             <p className="text-xs text-muted-foreground">
-              © {year} Sound Waves Publishing & Media. All rights reserved.
+              © {year} Sound Waves Publishing & Media. {t("footer.rights")}
             </p>
             <p className="text-xs text-muted-foreground">
-              RTS Enterprises (Research Technological Systems Enterprises) — A
-              privately held for-profit business entity.
+              {t("footer.privateHolding")}
             </p>
           </div>
         </div>
@@ -80,8 +80,9 @@ export default function Footer() {
             © {year} Sound Waves Publishing & Media
           </p>
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            Built with <Music className="h-3 w-3 text-primary fill-primary" />{" "}
-            using{" "}
+            {t("footer.builtWith")}{" "}
+            <Music className="h-3 w-3 text-primary fill-primary" />{" "}
+            {t("footer.using")}{" "}
             <a
               href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${appId}`}
               target="_blank"

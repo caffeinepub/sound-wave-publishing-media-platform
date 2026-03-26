@@ -12,60 +12,61 @@ import {
   Scissors,
 } from "lucide-react";
 import { motion } from "motion/react";
+import { useTranslation } from "../lib/i18n";
 
-const ART_CATEGORIES = [
+const ART_CATEGORY_DEFS = [
   {
     key: "narrativeArts",
-    label: "Narrative Arts",
+    catKey: "cat.narrativeArts",
     description: "Stories, novellas, and written narratives",
     image: "/assets/generated/category-narrative-arts.dim_400x400.jpg",
     Icon: BookOpen,
   },
   {
     key: "poetry",
-    label: "Poetry",
+    catKey: "cat.poetry",
     description: "Poems, verse, and spoken word",
     image: "/assets/generated/category-poetry.dim_400x400.jpg",
     Icon: Feather,
   },
   {
     key: "photography",
-    label: "Photography",
+    catKey: "cat.photography",
     description: "Photographic art and visual storytelling",
     image: "/assets/generated/category-photography.dim_400x400.jpg",
     Icon: Camera,
   },
   {
     key: "artDesigns",
-    label: "Art Designs",
+    catKey: "cat.artDesigns",
     description: "Digital art, graphic design, and illustrations",
     image: "/assets/generated/category-art-designs.dim_400x400.jpg",
     Icon: Palette,
   },
   {
     key: "artsAndCrafts",
-    label: "Arts & Crafts",
+    catKey: "cat.artsAndCrafts",
     description: "Handcrafted works and mixed media",
     image: "/assets/generated/category-arts-crafts.dim_400x400.jpg",
     Icon: Scissors,
   },
   {
     key: "cinemaCreation",
-    label: "Cinema Creation",
+    catKey: "cat.cinemaCreation",
     description: "Films, short films, and video art",
     image: "/assets/generated/category-cinema.dim_400x400.jpg",
     Icon: Film,
   },
   {
     key: "musicalWorks",
-    label: "Musical Works",
+    catKey: "cat.musicalWorks",
     description: "Musical compositions and recordings",
     image: "/assets/generated/category-musical-works.dim_400x400.jpg",
     Icon: Music,
   },
   {
     key: "scoreSheets",
-    label: "Score Sheets",
+    catKey: "cat.scoreSheets",
     description: "Sheet music and musical scores",
     image: "/assets/generated/category-score-sheets.dim_400x400.jpg",
     Icon: Music2,
@@ -92,6 +93,11 @@ const cardVariants = {
 
 export default function GalleriesPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const ART_CATEGORIES = ART_CATEGORY_DEFS.map((c) => ({
+    ...c,
+    label: t(c.catKey),
+  }));
 
   return (
     <div className="min-h-screen" data-ocid="galleries.page">
@@ -128,18 +134,15 @@ export default function GalleriesPage() {
             </div>
 
             <h1 className="font-display text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl text-foreground mb-6">
-              The Creative
-              <br />
-              <span className="text-primary italic">Galleries</span>
+              {t("galleries.title", "The Creative Galleries")}
             </h1>
 
             <p className="font-serif-body text-xl italic text-primary/90 mb-4">
-              "Where Music and Art Meet Legacy"
+              {t("galleries.tagline")}
             </p>
 
             <p className="text-muted-foreground text-base max-w-xl mx-auto leading-relaxed">
-              Eight disciplines. One platform. Infinite creative possibility.
-              Discover, license, and support original works across every medium.
+              {t("galleries.subtitle")}
             </p>
 
             {/* Ornamental divider */}
@@ -222,7 +225,7 @@ export default function GalleriesPage() {
                     </div>
 
                     <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-2 transition-all duration-200">
-                      <span>Explore</span>
+                      <span>{t("galleries.explore")}</span>
                       <ChevronRight className="h-3 w-3" />
                     </div>
                   </div>
@@ -240,8 +243,7 @@ export default function GalleriesPage() {
             className="mt-16 text-center space-y-4"
           >
             <p className="text-muted-foreground text-sm max-w-md mx-auto">
-              Are you an artist? Upload your work, set your pricing, and reach
-              collectors, licensees, and fans worldwide.
+              {t("galleries.artistCta")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button
@@ -249,7 +251,7 @@ export default function GalleriesPage() {
                 className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8"
                 onClick={() => navigate({ to: "/artist-portal" })}
               >
-                Join as an Artist
+                {t("galleries.joinArtist")}
               </Button>
               <Button
                 size="lg"
@@ -257,7 +259,7 @@ export default function GalleriesPage() {
                 className="border-border hover:border-primary/50"
                 onClick={() => navigate({ to: "/dashboard" })}
               >
-                Upload Your Work
+                {t("galleries.uploadWork")}
               </Button>
             </div>
           </motion.div>

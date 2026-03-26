@@ -100,8 +100,9 @@ export default function ArtistPortalPage() {
             Welcome, {userProfile?.name || "Artist"}
           </h1>
           <p className="text-muted-foreground">
-            Manage your musical submissions, track eligibility, and purchase
-            shares in Sound Waves Publishing &amp; Media.
+            Manage your submissions across any art discipline, track
+            eligibility, and purchase shares in Sound Waves Publishing &amp;
+            Media.
           </p>
         </div>
 
@@ -162,11 +163,11 @@ export default function ArtistPortalPage() {
               <div>
                 <CardTitle className="font-display text-xl flex items-center gap-2">
                   <Music className="h-5 w-5 text-primary" />
-                  Musical Submissions
+                  Art Submissions
                 </CardTitle>
                 <CardDescription className="mt-1">
-                  Submit 15 musical pieces to become eligible for share
-                  purchases
+                  Submit 15 pieces across any art discipline to become eligible
+                  for share purchases
                 </CardDescription>
               </div>
               <Button

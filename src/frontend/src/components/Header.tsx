@@ -15,9 +15,11 @@ import {
   Building2,
   Camera,
   ChevronDown,
+  CreditCard,
   Feather,
   Film,
   GalleryHorizontal,
+  Globe,
   LayoutDashboard,
   Menu,
   Mic2,
@@ -25,6 +27,7 @@ import {
   Music2,
   Palette,
   Receipt,
+  Scale,
   Scissors,
   Shield,
   ShoppingCart,
@@ -37,17 +40,59 @@ import {
 import { useState } from "react";
 import { useInternetIdentity } from "../hooks/useInternetIdentity";
 import { useGetCallerUserProfile, useIsCallerAdmin } from "../hooks/useQueries";
+import { LANGUAGE_LIST, useTranslation } from "../lib/i18n";
 
 const GALLERY_NAV_ITEMS = [
-  { key: "narrativeArts", label: "Narrative Arts", Icon: BookOpen },
-  { key: "poetry", label: "Poetry", Icon: Feather },
-  { key: "photography", label: "Photography", Icon: Camera },
-  { key: "artDesigns", label: "Art Designs", Icon: Palette },
-  { key: "artsAndCrafts", label: "Arts & Crafts", Icon: Scissors },
-  { key: "cinemaCreation", label: "Cinema Creation", Icon: Film },
-  { key: "musicalWorks", label: "Musical Works", Icon: Music },
-  { key: "scoreSheets", label: "Score Sheets", Icon: Music2 },
+  { key: "narrativeArts", catKey: "cat.narrativeArts", Icon: BookOpen },
+  { key: "poetry", catKey: "cat.poetry", Icon: Feather },
+  { key: "photography", catKey: "cat.photography", Icon: Camera },
+  { key: "artDesigns", catKey: "cat.artDesigns", Icon: Palette },
+  { key: "artsAndCrafts", catKey: "cat.artsAndCrafts", Icon: Scissors },
+  { key: "cinemaCreation", catKey: "cat.cinemaCreation", Icon: Film },
+  { key: "musicalWorks", catKey: "cat.musicalWorks", Icon: Music },
+  { key: "scoreSheets", catKey: "cat.scoreSheets", Icon: Music2 },
 ];
+
+function LanguageSwitcher() {
+  const { lang, setLang, t } = useTranslation();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          data-ocid="header.language_switcher.button"
+          className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+          aria-label="Select language"
+        >
+          <Globe className="h-4 w-4" />
+          <span className="hidden sm:inline uppercase text-xs font-semibold tracking-wider">
+            {lang}
+          </span>
+          <ChevronDown className="h-3 w-3 opacity-60" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        className="w-44 max-h-80 overflow-y-auto"
+        data-ocid="header.language_switcher.dropdown_menu"
+      >
+        {LANGUAGE_LIST.map(({ code, nativeName }) => (
+          <DropdownMenuItem
+            key={code}
+            onClick={() => setLang(code)}
+            className={lang === code ? "text-primary font-semibold" : ""}
+          >
+            <span className="w-6 text-xs uppercase text-muted-foreground font-mono mr-2">
+              {code}
+            </span>
+            {t(`lang.${code}`, nativeName)}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export default function Header() {
   const navigate = useNavigate();
@@ -56,6 +101,7 @@ export default function Header() {
   const { data: isAdmin } = useIsCallerAdmin();
   const queryClient = useQueryClient();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useTranslation();
 
   const isAuthenticated = !!identity;
   const isLoggingIn = loginStatus === "logging-in";
@@ -111,7 +157,7 @@ export default function Header() {
             onClick={() => navigate({ to: "/" })}
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
-            Home
+            {t("nav.home")}
           </button>
           <button
             type="button"
@@ -119,7 +165,16 @@ export default function Header() {
             className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
             <Ticket className="h-4 w-4" />
-            Events
+            {t("nav.events")}
+          </button>
+          <button
+            type="button"
+            data-ocid="header.membership.link"
+            onClick={() => navigate({ to: "/membership" })}
+            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+          >
+            <CreditCard className="h-4 w-4" />
+            Membership
           </button>
           <button
             type="button"
@@ -127,7 +182,7 @@ export default function Header() {
             className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
             <Mic2 className="h-4 w-4" />
-            Artist Portal
+            {t("nav.artistPortal")}
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -137,7 +192,7 @@ export default function Header() {
                 className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
               >
                 <GalleryHorizontal className="h-4 w-4" />
-                Galleries
+                {t("nav.galleries")}
                 <ChevronDown className="h-3 w-3 opacity-60" />
               </button>
             </DropdownMenuTrigger>
@@ -148,10 +203,10 @@ export default function Header() {
             >
               <DropdownMenuItem onClick={() => navigate({ to: "/galleries" })}>
                 <GalleryHorizontal className="mr-2 h-4 w-4 text-primary" />
-                All Galleries
+                {t("nav.allGalleries")}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {GALLERY_NAV_ITEMS.map(({ key, label, Icon }, index) => (
+              {GALLERY_NAV_ITEMS.map(({ key, catKey, Icon }, index) => (
                 <DropdownMenuItem
                   key={key}
                   data-ocid={`header.galleries.category.link.${index + 1}`}
@@ -163,7 +218,7 @@ export default function Header() {
                   }
                 >
                   <Icon className="mr-2 h-4 w-4 text-primary/70" />
-                  {label}
+                  {t(catKey)}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -175,28 +230,28 @@ export default function Header() {
                 className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
               >
                 <TrendingUp className="h-4 w-4" />
-                Shares
+                {t("nav.shares")}
                 <ChevronDown className="h-3 w-3 opacity-60" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-48">
+            <DropdownMenuContent align="start" className="w-52">
               <DropdownMenuItem
                 onClick={() => navigate({ to: "/shares/certificates" })}
               >
                 <Award className="mr-2 h-4 w-4 text-primary" />
-                Certificates
+                {t("nav.certificates")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => navigate({ to: "/shares/marketplace" })}
               >
                 <ShoppingCart className="mr-2 h-4 w-4 text-primary" />
-                Marketplace
+                {t("nav.marketplace")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => navigate({ to: "/shares/earnings" })}
               >
                 <TrendingUp className="mr-2 h-4 w-4 text-primary" />
-                Earnings
+                {t("nav.earnings")}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -204,7 +259,14 @@ export default function Header() {
                 onClick={() => navigate({ to: "/shares/investor-relations" })}
               >
                 <Building2 className="mr-2 h-4 w-4 text-primary" />
-                Investor Relations
+                {t("nav.investorRelations")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                data-ocid="header.shares.trademark_guide.link"
+                onClick={() => navigate({ to: "/legal/trademark-guide" })}
+              >
+                <Scale className="mr-2 h-4 w-4 text-primary" />
+                Trademark Guide
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -215,13 +277,18 @@ export default function Header() {
               className="flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
             >
               <Shield className="h-4 w-4" />
-              Admin
+              {t("nav.admin")}
             </button>
           )}
         </nav>
 
-        {/* Auth Controls */}
+        {/* Auth Controls + Language Switcher */}
         <div className="flex items-center gap-3">
+          {/* Language Switcher — desktop */}
+          <div className="hidden md:flex">
+            <LanguageSwitcher />
+          </div>
+
           {isAuthenticated && userProfile ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -248,13 +315,13 @@ export default function Header() {
                   onClick={() => navigate({ to: "/artist-portal" })}
                 >
                   <Mic2 className="mr-2 h-4 w-4" />
-                  Artist Portal
+                  {t("nav.artistPortal")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => navigate({ to: "/dashboard" })}
                 >
                   <LayoutDashboard className="mr-2 h-4 w-4" />
-                  Media Dashboard
+                  {t("nav.mediaDashboard")}
                 </DropdownMenuItem>
                 {isAdmin && (
                   <>
@@ -263,25 +330,25 @@ export default function Header() {
                       onClick={() => navigate({ to: "/admin/dashboard" })}
                     >
                       <Shield className="mr-2 h-4 w-4" />
-                      Admin Dashboard
+                      {t("nav.adminDashboard")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => navigate({ to: "/admin/analytics" })}
                     >
                       <BarChart3 className="mr-2 h-4 w-4" />
-                      Analytics
+                      {t("nav.analytics")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => navigate({ to: "/admin/bookkeeping" })}
                     >
                       <Receipt className="mr-2 h-4 w-4" />
-                      Bookkeeping
+                      {t("nav.bookkeeping")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => navigate({ to: "/admin/user-roles" })}
                     >
                       <Users className="mr-2 h-4 w-4" />
-                      User Roles
+                      {t("nav.userRoles")}
                     </DropdownMenuItem>
                   </>
                 )}
@@ -290,7 +357,7 @@ export default function Header() {
                   onClick={handleAuth}
                   className="text-destructive focus:text-destructive"
                 >
-                  Logout
+                  {t("nav.logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -301,7 +368,7 @@ export default function Header() {
               size="sm"
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              {isLoggingIn ? "Logging in..." : "Login"}
+              {isLoggingIn ? t("nav.loggingIn") : t("nav.login")}
             </Button>
           )}
 
@@ -332,7 +399,7 @@ export default function Header() {
               }}
               className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
-              Home
+              {t("nav.home")}
             </button>
             <button
               type="button"
@@ -342,7 +409,18 @@ export default function Header() {
               }}
               className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
-              <Ticket className="h-4 w-4" /> Events
+              <Ticket className="h-4 w-4" /> {t("nav.events")}
+            </button>
+            <button
+              type="button"
+              data-ocid="header.membership.link"
+              onClick={() => {
+                navigate({ to: "/membership" });
+                setMobileOpen(false);
+              }}
+              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              <CreditCard className="h-4 w-4" /> Membership
             </button>
             <button
               type="button"
@@ -352,7 +430,7 @@ export default function Header() {
               }}
               className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
-              <Mic2 className="h-4 w-4" /> Artist Portal
+              <Mic2 className="h-4 w-4" /> {t("nav.artistPortal")}
             </button>
             <button
               type="button"
@@ -362,11 +440,11 @@ export default function Header() {
               }}
               className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
-              <GalleryHorizontal className="h-4 w-4" /> Galleries
+              <GalleryHorizontal className="h-4 w-4" /> {t("nav.galleries")}
             </button>
             <div className="px-3 py-1">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-1">
-                Shares
+                {t("nav.shares")}
               </p>
               <div className="flex flex-col gap-0.5">
                 <button
@@ -377,7 +455,7 @@ export default function Header() {
                   }}
                   className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  <Award className="h-4 w-4" /> Certificates
+                  <Award className="h-4 w-4" /> {t("nav.certificates")}
                 </button>
                 <button
                   type="button"
@@ -387,7 +465,7 @@ export default function Header() {
                   }}
                   className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  <ShoppingCart className="h-4 w-4" /> Marketplace
+                  <ShoppingCart className="h-4 w-4" /> {t("nav.marketplace")}
                 </button>
                 <button
                   type="button"
@@ -397,7 +475,7 @@ export default function Header() {
                   }}
                   className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  <TrendingUp className="h-4 w-4" /> Earnings
+                  <TrendingUp className="h-4 w-4" /> {t("nav.earnings")}
                 </button>
                 <button
                   type="button"
@@ -408,7 +486,18 @@ export default function Header() {
                   }}
                   className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  <Building2 className="h-4 w-4" /> Investor Relations
+                  <Building2 className="h-4 w-4" /> {t("nav.investorRelations")}
+                </button>
+                <button
+                  type="button"
+                  data-ocid="header.shares.trademark_guide.link"
+                  onClick={() => {
+                    navigate({ to: "/legal/trademark-guide" });
+                    setMobileOpen(false);
+                  }}
+                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Scale className="h-4 w-4" /> Trademark Guide
                 </button>
               </div>
             </div>
@@ -421,9 +510,16 @@ export default function Header() {
                 }}
                 className="flex items-center gap-2 rounded px-3 py-2 text-sm text-primary hover:bg-muted"
               >
-                <Shield className="h-4 w-4" /> Admin Dashboard
+                <Shield className="h-4 w-4" /> {t("nav.adminDashboard")}
               </button>
             )}
+            {/* Language Switcher — mobile */}
+            <div className="px-3 pt-2 pb-1 border-t border-border mt-1">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">
+                Language
+              </p>
+              <LanguageSwitcher />
+            </div>
           </nav>
         </div>
       )}

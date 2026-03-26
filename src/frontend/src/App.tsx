@@ -43,12 +43,16 @@ import GalleryCategoryPage from "./pages/GalleryCategoryPage";
 import HomePage from "./pages/HomePage";
 import InvestorRelationsPage from "./pages/InvestorRelationsPage";
 import MediaDetailPage from "./pages/MediaDetailPage";
+import MembershipFailurePage from "./pages/MembershipFailurePage";
+import MembershipPage from "./pages/MembershipPage";
+import MembershipSuccessPage from "./pages/MembershipSuccessPage";
 import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import ShareCertificatesPage from "./pages/ShareCertificatesPage";
 import ShareMarketplacePage from "./pages/ShareMarketplacePage";
 import SharePurchaseFailurePage from "./pages/SharePurchaseFailurePage";
 import SharePurchaseSuccessPage from "./pages/SharePurchaseSuccessPage";
+import TrademarkGuidePage from "./pages/TrademarkGuidePage";
 
 const queryClient = new QueryClient();
 
@@ -226,6 +230,11 @@ const investorRelationsRoute = createRoute({
   path: "/shares/investor-relations",
   component: InvestorRelationsPage,
 });
+const trademarkGuideRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/legal/trademark-guide",
+  component: TrademarkGuidePage,
+});
 const galleriesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/galleries",
@@ -240,6 +249,21 @@ const galleryArtworkDetailRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/galleries/$category/$mediaId",
   component: GalleryArtworkDetailPage,
+});
+const membershipRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/membership",
+  component: MembershipPage,
+});
+const membershipSuccessRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/membership/success",
+  component: MembershipSuccessPage,
+});
+const membershipFailureRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/membership/failure",
+  component: MembershipFailurePage,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -265,9 +289,13 @@ const routeTree = rootRoute.addChildren([
   earningsDashboardRoute,
   shareMarketplaceRoute,
   investorRelationsRoute,
+  trademarkGuideRoute,
   galleriesRoute,
   galleryCategoryRoute,
   galleryArtworkDetailRoute,
+  membershipRoute,
+  membershipSuccessRoute,
+  membershipFailureRoute,
 ]);
 
 const router = createRouter({ routeTree });

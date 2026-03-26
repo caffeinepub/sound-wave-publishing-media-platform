@@ -81,7 +81,7 @@ const OWNERSHIP_ROWS = [
     percentage: "Up to 30%",
     icon: <Award className="h-4 w-4 text-green-300" />,
     badgeClass: "bg-green-900/30 text-green-300 border-green-700/40",
-    note: "Min 1 share · Max 7 shares per artist · Must submit 15 musical pieces",
+    note: "Min 1 share · Max 7 shares per artist · Must submit 15 pieces across any art discipline",
   },
 ];
 
@@ -347,9 +347,11 @@ export default function InvestorRelationsPage() {
                 <div className="rounded-lg border border-border/50 bg-muted/10 p-3.5 text-xs text-muted-foreground">
                   <strong className="text-foreground/70">Artist Pool:</strong>{" "}
                   Up to 3,000,000 Common Shares are available to participating
-                  artists who have submitted 15 musical pieces. Artists may
-                  purchase a minimum of 1 share and a maximum of 7 shares. The
-                  first 100 eligible artists each receive 1 free share.
+                  artists who have submitted 15 pieces across any art discipline
+                  (music, visual art, photography, poetry, cinema, narrative
+                  arts, arts & crafts, or score sheets). Artists may purchase a
+                  minimum of 1 share and a maximum of 7 shares. The first 100
+                  eligible artists each receive 1 free share.
                 </div>
               </CardContent>
             </Card>

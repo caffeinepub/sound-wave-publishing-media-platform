@@ -113,7 +113,7 @@ const SHARE_TIERS: ShareTier[] = [
     image: "/assets/generated/common-share-certificate.dim_800x560.jpg",
     availability: "Open to Artists (min 1, max 7 shares)",
     tierDescription:
-      "Common Shares are available to all participating artists who have submitted 15 or more musical pieces. These shares grant a standard ownership stake in Sound Waves Publishing & Media with quarterly dividend distributions.",
+      "Common Shares are available to all participating artists who have submitted 15 or more pieces across any art discipline (music, visual art, photography, poetry, cinema, narrative arts, arts & crafts, or score sheets). These shares grant a standard ownership stake in Sound Waves Publishing & Media with quarterly dividend distributions.",
   },
 ];
 
