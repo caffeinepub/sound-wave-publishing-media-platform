@@ -27,6 +27,7 @@ import {
 import AdminAnalyticsPage from "./pages/AdminAnalyticsPage";
 import AdminBookkeepingPage from "./pages/AdminBookkeepingPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminSettingsPage from "./pages/AdminSettingsPage";
 import AdminUserRolesPage from "./pages/AdminUserRolesPage";
 import ArtistDashboard from "./pages/ArtistDashboard";
 import ArtistPortalPage from "./pages/ArtistPortalPage";
@@ -173,6 +174,11 @@ const adminUserRolesRoute = createRoute({
   path: "/admin/user-roles",
   component: AdminUserRolesPage,
 });
+const adminSettingsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/admin/settings",
+  component: AdminSettingsPage,
+});
 
 // New Sound Waves routes
 const eventRegistrationRoute = createRoute({
@@ -278,6 +284,7 @@ const routeTree = rootRoute.addChildren([
   adminAnalyticsRoute,
   adminBookkeepingRoute,
   adminUserRolesRoute,
+  adminSettingsRoute,
   eventRegistrationRoute,
   eventRegistrationSuccessRoute,
   eventRegistrationFailureRoute,

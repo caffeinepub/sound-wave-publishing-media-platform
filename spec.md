@@ -1,29 +1,44 @@
-# Sound Wave Publishing & Media
+# Sound Wave Publishing & Media — Stripe Admin Settings
 
 ## Current State
-The platform has Stripe integration (`createCheckoutSession`), membership fee record storage (`createMembershipFeeRecord`, `MembershipFeeRecord`), and an admin bookkeeping dashboard. There is no self-service membership signup page for users.
+- `StripeConfiguration` in Motoko only stores `secretKey` and `allowedCountries`
+- `setStripeConfiguration` / `isStripeConfigured` exist but there is no publishableKey, webhookSecret, or testMode field
+- Admin dashboard at `/admin/dashboard` has tabs for Shareholders, Registrations, Accounting, and potentially others
+- No dedicated admin settings page or tab for Stripe key management
+- Membership subscription records tracked via `MembershipFeeRecord`
 
 ## Requested Changes (Diff)
 
 ### Add
-- `/membership` page with two subscription tiers:
-  - **Monthly Artist Membership** — $10.00/month
-  - **Annual Artist Membership** — $100.00/year (~$8.33/month, save $20)
-- Stripe Checkout flow initiated from this page using `createCheckoutSession`
-- Success/failure redirect pages for membership checkout (`/membership/success`, `/membership/failure`)
-- Membership page linked from Header navigation
-- On success, automatically call `createMembershipFeeRecord` to log the payment in admin bookkeeping
+- `AdminStripeSettings` type in main.mo: `{ publishableKey: Text; secretKey: Text; webhookSecret: Text; testMode: Bool; allowedCountries: [Text] }`
+- `setAdminStripeSettings(settings)` — admin-only
+- `getAdminStripeSettings()` — admin-only, returns optional settings
+- `getSubscriptionStats()` — returns `{ activeSubscribers: Nat; monthlyRevenue: Float; totalRevenue: Float }` derived from membership fee records
+- New `AdminSettingsPage` at `/admin/settings` with:
+  - Stripe Publishable Key field (password input, masked)
+  - Stripe Secret Key field (password input, masked)
+  - Webhook Secret Key field (password input, masked)
+  - Test/Live mode toggle switch
+  - "Save Settings" button
+  - "Test Connection" button (calls `isStripeConfigured` and verifies keys are non-empty)
+  - Active subscriber count card
+  - Monthly & total revenue summary cards
+  - Warning banner about key storage security
+- New "Settings" tab added to `AdminDashboardPage`
+- Link to `/admin/settings` from admin nav
 
 ### Modify
-- Header: add "Membership" link in navigation
-- Admin Bookkeeping page: membership fee records already display; no structural change needed
+- `setStripeConfiguration` updated to use keys from `AdminStripeSettings` when creating checkout sessions
+- `AdminDashboardPage` — add a Settings tab
+- `App.tsx` — add route for `/admin/settings`
 
 ### Remove
-- Nothing
+- Nothing removed
 
 ## Implementation Plan
-1. Create `src/frontend/src/pages/MembershipPage.tsx` — two pricing cards (Monthly $10, Annual $100), each with a "Subscribe" button that calls `createCheckoutSession` with the appropriate Stripe line item and redirects to Stripe Checkout
-2. Create `src/frontend/src/pages/MembershipSuccessPage.tsx` — confirmation page; calls `createMembershipFeeRecord` to log the fee
-3. Create `src/frontend/src/pages/MembershipFailurePage.tsx` — error/cancelled page with a retry link
-4. Wire routes in `App.tsx`: `/membership`, `/membership/success`, `/membership/failure`
-5. Add "Membership" nav link in `Header.tsx`
+1. Add `AdminStripeSettings` type, stable var, and get/set/stats functions to main.mo
+2. Regenerate or manually extend backend.d.ts with new function signatures
+3. Build `AdminSettingsPage.tsx` with all fields, toggle, test connection, and stats cards
+4. Add `/admin/settings` route in App.tsx
+5. Add Settings tab to AdminDashboardPage
+6. Validate (typecheck + build)

@@ -126,6 +126,19 @@ export interface StripeConfiguration {
     allowedCountries: Array<string>;
     secretKey: string;
 }
+export interface AdminStripeSettings {
+    publishableKey: string;
+    secretKey: string;
+    webhookSecret: string;
+    testMode: boolean;
+    allowedCountries: Array<string>;
+}
+export interface SubscriptionStats {
+    activeSubscribers: bigint;
+    monthlyRevenue: bigint;
+    totalRevenue: bigint;
+}
+
 export interface MediaMetadata {
     id: string;
     title: string;
@@ -309,6 +322,9 @@ export interface backendInterface {
     searchMediaByKeyword(keyword: string): Promise<Array<MediaMetadata>>;
     setMerchantServicesConfiguration(config: MerchantServicesConfig): Promise<void>;
     setNationalBankcardConfiguration(config: NationalBankcardConfig): Promise<void>;
+    getAdminStripeSettings(): Promise<[] | [AdminStripeSettings]>;
+    getSubscriptionStats(): Promise<SubscriptionStats>;
+    setAdminStripeSettings(settings: AdminStripeSettings): Promise<void>;
     setStripeConfiguration(config: StripeConfiguration): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
     updateArtistProfile(profile: ArtistProfile): Promise<void>;

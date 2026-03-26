@@ -161,6 +161,20 @@ actor {
     allowedCountries : [Text];
   };
 
+  public type AdminStripeSettings = {
+    publishableKey : Text;
+    secretKey : Text;
+    webhookSecret : Text;
+    testMode : Bool;
+    allowedCountries : [Text];
+  };
+
+  public type SubscriptionStats = {
+    activeSubscribers : Nat;
+    monthlyRevenue : Nat;
+    totalRevenue : Nat;
+  };
+
   public type PaymentMethod = {
     #stripe;
     #merchantServices;
@@ -242,6 +256,7 @@ actor {
   let payoutRecords = Map.empty<Text, PayoutRecord>();
 
   var stripeConfig : ?Stripe.StripeConfiguration = null;
+  var adminStripeSettings : ?AdminStripeSettings = null;
   var merchantServicesConfig : ?MerchantServicesConfig = ?{
     apiLoginId = "";
     transactionKey = "";
@@ -585,6 +600,38 @@ actor {
   public shared ({ caller }) func setStripeConfiguration(config : Stripe.StripeConfiguration) : async () {
     assertIsAdmin(caller);
     stripeConfig := ?config;
+  };
+
+
+  public shared ({ caller }) func setAdminStripeSettings(settings : AdminStripeSettings) : async () {
+    assertIsAdmin(caller);
+    adminStripeSettings := ?settings;
+    // Also update the stripe config used for checkout
+    stripeConfig := ?{
+      secretKey = settings.secretKey;
+      allowedCountries = settings.allowedCountries;
+    };
+  };
+
+  public query ({ caller }) func getAdminStripeSettings() : async ?AdminStripeSettings {
+    assertIsAdmin(caller);
+    adminStripeSettings;
+  };
+
+  public query ({ caller }) func getSubscriptionStats() : async SubscriptionStats {
+    assertIsAdmin(caller);
+    let records = membershipFeeRecords.values().toArray();
+    let total = records.size();
+    var totalRevenue : Nat = 0;
+    for (r in records.vals()) {
+      totalRevenue += r.amount;
+    };
+    // Estimate active subscribers as total membership fee records
+    {
+      activeSubscribers = total;
+      monthlyRevenue = if (total > 0) { totalRevenue / total } else { 0 };
+      totalRevenue = totalRevenue;
+    };
   };
 
   public shared ({ caller }) func setMerchantServicesConfiguration(config : MerchantServicesConfig) : async () {
