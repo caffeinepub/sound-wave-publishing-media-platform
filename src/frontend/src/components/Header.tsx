@@ -9,49 +9,19 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
-  Award,
   BarChart3,
-  BookOpen,
-  Building2,
-  Camera,
   ChevronDown,
-  CreditCard,
-  Feather,
-  Film,
-  GalleryHorizontal,
   Globe,
   LayoutDashboard,
-  Menu,
   Mic2,
-  Music,
-  Music2,
-  Palette,
   Receipt,
-  Scale,
-  Scissors,
   Shield,
-  ShoppingCart,
-  Ticket,
-  TrendingUp,
   User,
   Users,
-  X,
 } from "lucide-react";
-import { useState } from "react";
 import { useInternetIdentity } from "../hooks/useInternetIdentity";
 import { useGetCallerUserProfile, useIsCallerAdmin } from "../hooks/useQueries";
 import { LANGUAGE_LIST, useTranslation } from "../lib/i18n";
-
-const GALLERY_NAV_ITEMS = [
-  { key: "narrativeArts", catKey: "cat.narrativeArts", Icon: BookOpen },
-  { key: "poetry", catKey: "cat.poetry", Icon: Feather },
-  { key: "photography", catKey: "cat.photography", Icon: Camera },
-  { key: "artDesigns", catKey: "cat.artDesigns", Icon: Palette },
-  { key: "artsAndCrafts", catKey: "cat.artsAndCrafts", Icon: Scissors },
-  { key: "cinemaCreation", catKey: "cat.cinemaCreation", Icon: Film },
-  { key: "musicalWorks", catKey: "cat.musicalWorks", Icon: Music },
-  { key: "scoreSheets", catKey: "cat.scoreSheets", Icon: Music2 },
-];
 
 function LanguageSwitcher() {
   const { lang, setLang, t } = useTranslation();
@@ -100,11 +70,12 @@ export default function Header() {
   const { data: userProfile } = useGetCallerUserProfile();
   const { data: isAdmin } = useIsCallerAdmin();
   const queryClient = useQueryClient();
-  const [mobileOpen, setMobileOpen] = useState(false);
   const { t } = useTranslation();
 
   const isAuthenticated = !!identity;
   const isLoggingIn = loginStatus === "logging-in";
+
+  void isLoggingIn;
 
   const handleAuth = async () => {
     if (isAuthenticated) {
@@ -150,144 +121,9 @@ export default function Header() {
           </div>
         </button>
 
-        {/* Desktop Nav */}
-        <nav className="hidden items-center gap-6 md:flex">
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/" })}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            {t("nav.home")}
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/event-registration" })}
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            <Ticket className="h-4 w-4" />
-            {t("nav.events")}
-          </button>
-          <button
-            type="button"
-            data-ocid="header.membership.link"
-            onClick={() => navigate({ to: "/membership" })}
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            <CreditCard className="h-4 w-4" />
-            Membership
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/artist-portal" })}
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            <Mic2 className="h-4 w-4" />
-            {t("nav.artistPortal")}
-          </button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                data-ocid="header.galleries.link"
-                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-              >
-                <GalleryHorizontal className="h-4 w-4" />
-                {t("nav.galleries")}
-                <ChevronDown className="h-3 w-3 opacity-60" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              className="w-52"
-              data-ocid="header.galleries.dropdown_menu"
-            >
-              <DropdownMenuItem onClick={() => navigate({ to: "/galleries" })}>
-                <GalleryHorizontal className="mr-2 h-4 w-4 text-primary" />
-                {t("nav.allGalleries")}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {GALLERY_NAV_ITEMS.map(({ key, catKey, Icon }, index) => (
-                <DropdownMenuItem
-                  key={key}
-                  data-ocid={`header.galleries.category.link.${index + 1}`}
-                  onClick={() =>
-                    navigate({
-                      to: "/galleries/$category",
-                      params: { category: key },
-                    })
-                  }
-                >
-                  <Icon className="mr-2 h-4 w-4 text-primary/70" />
-                  {t(catKey)}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-              >
-                <TrendingUp className="h-4 w-4" />
-                {t("nav.shares")}
-                <ChevronDown className="h-3 w-3 opacity-60" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-52">
-              <DropdownMenuItem
-                onClick={() => navigate({ to: "/shares/certificates" })}
-              >
-                <Award className="mr-2 h-4 w-4 text-primary" />
-                {t("nav.certificates")}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => navigate({ to: "/shares/marketplace" })}
-              >
-                <ShoppingCart className="mr-2 h-4 w-4 text-primary" />
-                {t("nav.marketplace")}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => navigate({ to: "/shares/earnings" })}
-              >
-                <TrendingUp className="mr-2 h-4 w-4 text-primary" />
-                {t("nav.earnings")}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                data-ocid="header.shares.investor_relations.link"
-                onClick={() => navigate({ to: "/shares/investor-relations" })}
-              >
-                <Building2 className="mr-2 h-4 w-4 text-primary" />
-                {t("nav.investorRelations")}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                data-ocid="header.shares.trademark_guide.link"
-                onClick={() => navigate({ to: "/legal/trademark-guide" })}
-              >
-                <Scale className="mr-2 h-4 w-4 text-primary" />
-                Trademark Guide
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {isAdmin && (
-            <button
-              type="button"
-              onClick={() => navigate({ to: "/admin/dashboard" })}
-              className="flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-            >
-              <Shield className="h-4 w-4" />
-              {t("nav.admin")}
-            </button>
-          )}
-        </nav>
-
-        {/* Auth Controls + Language Switcher */}
+        {/* Right side: language switcher + user profile */}
         <div className="flex items-center gap-3">
-          {/* Language Switcher — desktop */}
-          <div className="hidden md:flex">
-            <LanguageSwitcher />
-          </div>
+          <LanguageSwitcher />
 
           {isAuthenticated && userProfile ? (
             <DropdownMenu>
@@ -361,168 +197,9 @@ export default function Header() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <Button
-              onClick={handleAuth}
-              disabled={isLoggingIn}
-              size="sm"
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              {isLoggingIn ? t("nav.loggingIn") : t("nav.login")}
-            </Button>
-          )}
-
-          {/* Mobile menu toggle */}
-          <button
-            type="button"
-            className="md:hidden p-2 text-muted-foreground hover:text-foreground"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </button>
+          ) : null}
         </div>
       </div>
-
-      {/* Mobile Nav */}
-      {mobileOpen && (
-        <div className="border-t border-border bg-background md:hidden">
-          <nav className="container flex flex-col gap-1 py-3">
-            <button
-              type="button"
-              onClick={() => {
-                navigate({ to: "/" });
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              {t("nav.home")}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                navigate({ to: "/event-registration" });
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              <Ticket className="h-4 w-4" /> {t("nav.events")}
-            </button>
-            <button
-              type="button"
-              data-ocid="header.membership.link"
-              onClick={() => {
-                navigate({ to: "/membership" });
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              <CreditCard className="h-4 w-4" /> Membership
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                navigate({ to: "/artist-portal" });
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              <Mic2 className="h-4 w-4" /> {t("nav.artistPortal")}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                navigate({ to: "/galleries" });
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              <GalleryHorizontal className="h-4 w-4" /> {t("nav.galleries")}
-            </button>
-            <div className="px-3 py-1">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-1">
-                {t("nav.shares")}
-              </p>
-              <div className="flex flex-col gap-0.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    navigate({ to: "/shares/certificates" });
-                    setMobileOpen(false);
-                  }}
-                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <Award className="h-4 w-4" /> {t("nav.certificates")}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    navigate({ to: "/shares/marketplace" });
-                    setMobileOpen(false);
-                  }}
-                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <ShoppingCart className="h-4 w-4" /> {t("nav.marketplace")}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    navigate({ to: "/shares/earnings" });
-                    setMobileOpen(false);
-                  }}
-                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <TrendingUp className="h-4 w-4" /> {t("nav.earnings")}
-                </button>
-                <button
-                  type="button"
-                  data-ocid="header.shares.investor_relations.link"
-                  onClick={() => {
-                    navigate({ to: "/shares/investor-relations" });
-                    setMobileOpen(false);
-                  }}
-                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <Building2 className="h-4 w-4" /> {t("nav.investorRelations")}
-                </button>
-                <button
-                  type="button"
-                  data-ocid="header.shares.trademark_guide.link"
-                  onClick={() => {
-                    navigate({ to: "/legal/trademark-guide" });
-                    setMobileOpen(false);
-                  }}
-                  className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <Scale className="h-4 w-4" /> Trademark Guide
-                </button>
-              </div>
-            </div>
-            {isAdmin && (
-              <button
-                type="button"
-                onClick={() => {
-                  navigate({ to: "/admin/dashboard" });
-                  setMobileOpen(false);
-                }}
-                className="flex items-center gap-2 rounded px-3 py-2 text-sm text-primary hover:bg-muted"
-              >
-                <Shield className="h-4 w-4" /> {t("nav.adminDashboard")}
-              </button>
-            )}
-            {/* Language Switcher — mobile */}
-            <div className="px-3 pt-2 pb-1 border-t border-border mt-1">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">
-                Language
-              </p>
-              <LanguageSwitcher />
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
   );
 }

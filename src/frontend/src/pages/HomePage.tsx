@@ -77,62 +77,19 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              "url('/assets/generated/hero-bg.dim_1440x600.png')",
-          }}
-        />
-        <div className="absolute inset-0 bg-background/75" />
-        <div className="relative container py-24 md:py-36">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary uppercase tracking-widest">
-              <Music className="h-3 w-3" />
-              {t("home.hero.badge")}
-            </div>
-            <h1 className="font-display text-5xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl">
-              {t("home.hero.headline")}{" "}
-              <span className="text-primary">
-                {t("home.hero.headlineHighlight")}
-              </span>
-            </h1>
-            <p className="font-serif-body text-lg italic text-primary/90">
-              {t("home.hero.tagline")}
-            </p>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              {t("home.hero.subtitle")}
-            </p>
-            <p className="text-sm text-muted-foreground/70 italic">
-              {t("home.hero.founder")}{" "}
-              <span className="text-primary not-italic font-semibold">
-                Mr. Robin T. Harding Smith
-              </span>
-              , {t("home.hero.founderTitle")}
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center pt-2">
-              <Button
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8"
-                onClick={() => navigate({ to: "/event-registration" })}
-              >
-                <Ticket className="mr-2 h-5 w-5" />
-                {t("home.hero.registerBtn")}
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary/50 text-primary hover:bg-primary/10 font-semibold px-8"
-                onClick={() => navigate({ to: "/artist-portal" })}
-              >
-                <Mic2 className="mr-2 h-5 w-5" />
-                {t("home.hero.artistPortalBtn")}
-              </Button>
-            </div>
-          </div>
-        </div>
+      {/* Plain Introduction */}
+      <section className="container py-12">
+        <h1 className="text-3xl font-semibold mb-3">
+          Sound Wave Publishing &amp; Media
+        </h1>
+        <p className="text-muted-foreground mb-2">
+          Where Music and Art Meet Legacy
+        </p>
+        <p className="text-muted-foreground max-w-2xl">
+          A platform for original artists to showcase, license, and monetize
+          their work across music, visual art, photography, cinema, narrative
+          arts, poetry, arts &amp; crafts, and score sheets.
+        </p>
       </section>
 
       {/* Stats Bar */}
