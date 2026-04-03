@@ -102,6 +102,30 @@ export function clearSessionParameter(key: string): void {
 }
 
 /**
+ * Builds a URL path with persisted parameters appended as query string.
+ * Reads the specified parameter keys from sessionStorage and appends any
+ * that have stored values.
+ *
+ * @param path - The base path (e.g. "/payment-success")
+ * @param paramKeys - List of parameter keys to look up and append
+ * @returns The path with query string appended if any params were found
+ */
+export function buildUrlWithPersistedParams(
+  path: string,
+  paramKeys: string[],
+): string {
+  const params = new URLSearchParams();
+  for (const key of paramKeys) {
+    const value = getSessionParameter(key);
+    if (value !== null) {
+      params.set(key, value);
+    }
+  }
+  const qs = params.toString();
+  return qs ? `${path}?${qs}` : path;
+}
+
+/**
  * Removes a specific parameter from the URL hash without reloading the page
  * Preserves route information and other parameters in the hash
  * Used to remove sensitive data from the address bar after extracting it
@@ -211,27 +235,4 @@ export function getSecretFromHash(paramName: string): string | null {
  */
 export function getSecretParameter(paramName: string): string | null {
   return getSecretFromHash(paramName);
-}
-
-/**
- * Builds a URL with specified query parameters persisted from the current session/URL.
- * Useful for maintaining referral codes and other state through navigation.
- *
- * @param path - The target path (e.g. "/payment-success")
- * @param paramKeys - Array of parameter keys to persist (from sessionStorage or current URL)
- * @returns The path with any found persistent params appended as query string
- */
-export function buildUrlWithPersistedParams(
-  path: string,
-  paramKeys: string[],
-): string {
-  const params = new URLSearchParams();
-  for (const key of paramKeys) {
-    const value = getPersistedUrlParameter(key);
-    if (value !== null) {
-      params.set(key, value);
-    }
-  }
-  const qs = params.toString();
-  return qs ? `${path}?${qs}` : path;
 }
