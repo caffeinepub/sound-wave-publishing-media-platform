@@ -214,26 +214,24 @@ export function getSecretParameter(paramName: string): string | null {
 }
 
 /**
- * Builds a URL with persisted parameters appended as query string.
- * Retrieves stored parameters (e.g. referral codes) from sessionStorage and appends them.
+ * Builds a URL with specified query parameters persisted from the current session/URL.
+ * Useful for maintaining referral codes and other state through navigation.
  *
- * @param baseUrl - The base URL to append parameters to
- * @param paramNames - Parameter names to look up and append
- * @returns The URL with persisted parameters appended
+ * @param path - The target path (e.g. "/payment-success")
+ * @param paramKeys - Array of parameter keys to persist (from sessionStorage or current URL)
+ * @returns The path with any found persistent params appended as query string
  */
 export function buildUrlWithPersistedParams(
-  baseUrl: string,
-  paramNames: string[],
+  path: string,
+  paramKeys: string[],
 ): string {
   const params = new URLSearchParams();
-  for (const name of paramNames) {
-    const value = getPersistedUrlParameter(name);
+  for (const key of paramKeys) {
+    const value = getPersistedUrlParameter(key);
     if (value !== null) {
-      params.set(name, value);
+      params.set(key, value);
     }
   }
-  const queryString = params.toString();
-  if (!queryString) return baseUrl;
-  const separator = baseUrl.includes("?") ? "&" : "?";
-  return `${baseUrl}${separator}${queryString}`;
+  const qs = params.toString();
+  return qs ? `${path}?${qs}` : path;
 }

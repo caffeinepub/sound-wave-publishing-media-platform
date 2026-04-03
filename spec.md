@@ -1,44 +1,35 @@
-# Sound Wave Publishing & Media — Stripe Admin Settings
+# Sound Wave Publishing & Media
 
 ## Current State
-- `StripeConfiguration` in Motoko only stores `secretKey` and `allowedCountries`
-- `setStripeConfiguration` / `isStripeConfigured` exist but there is no publishableKey, webhookSecret, or testMode field
-- Admin dashboard at `/admin/dashboard` has tabs for Shareholders, Registrations, Accounting, and potentially others
-- No dedicated admin settings page or tab for Stripe key management
-- Membership subscription records tracked via `MembershipFeeRecord`
+The live homepage is displaying raw translation keys like "home.hero", "home.hero.tagline" as visible text, making the site look unprofessional. The `.old/` source has a corrected `HomePage.tsx` that uses hardcoded professional text (no hero section, no raw translation keys rendered on screen), but the issue persists in the live view due to a stale deployment.
+
+The current `HomePage.tsx` correctly shows:
+- Company name as a plain heading
+- Mission statement: "Empowering original artists to showcase, protect, and profit from their creative work."
+- Brand tagline: "Where Music and Art Meet Legacy" in small caps
+- Stats bar, galleries section, features, ownership structure, and CTA — all working
 
 ## Requested Changes (Diff)
 
 ### Add
-- `AdminStripeSettings` type in main.mo: `{ publishableKey: Text; secretKey: Text; webhookSecret: Text; testMode: Bool; allowedCountries: [Text] }`
-- `setAdminStripeSettings(settings)` — admin-only
-- `getAdminStripeSettings()` — admin-only, returns optional settings
-- `getSubscriptionStats()` — returns `{ activeSubscribers: Nat; monthlyRevenue: Float; totalRevenue: Float }` derived from membership fee records
-- New `AdminSettingsPage` at `/admin/settings` with:
-  - Stripe Publishable Key field (password input, masked)
-  - Stripe Secret Key field (password input, masked)
-  - Webhook Secret Key field (password input, masked)
-  - Test/Live mode toggle switch
-  - "Save Settings" button
-  - "Test Connection" button (calls `isStripeConfigured` and verifies keys are non-empty)
-  - Active subscriber count card
-  - Monthly & total revenue summary cards
-  - Warning banner about key storage security
-- New "Settings" tab added to `AdminDashboardPage`
-- Link to `/admin/settings` from admin nav
+- Nothing new to add
 
 ### Modify
-- `setStripeConfiguration` updated to use keys from `AdminStripeSettings` when creating checkout sessions
-- `AdminDashboardPage` — add a Settings tab
-- `App.tsx` — add route for `/admin/settings`
+- Ensure `HomePage.tsx` has NO references to `t("home.hero.*")` anywhere — all hero-related translation calls must be replaced with hardcoded professional text
+- Ensure the homepage intro section is clean, professional, and plain — no hero banner, no nav, no login button
+- The intro section must display:
+  1. Company name: "Sound Wave Publishing & Media" as a plain `<h1>`
+  2. Mission statement: "Empowering original artists to showcase, protect, and profit from their creative work."
+  3. Brand tagline: "Where Music and Art Meet Legacy" styled in small caps as a secondary brand identifier
+- Remove any leftover hero section code, hero badges, hero buttons, or hero image backgrounds from the homepage
+- Verify the Header component does not show navigation links (only logo + language switcher + user menu when logged in)
 
 ### Remove
-- Nothing removed
+- Any hero section remnants from the homepage
+- Any `t("home.hero.*")` calls from the homepage
 
 ## Implementation Plan
-1. Add `AdminStripeSettings` type, stable var, and get/set/stats functions to main.mo
-2. Regenerate or manually extend backend.d.ts with new function signatures
-3. Build `AdminSettingsPage.tsx` with all fields, toggle, test connection, and stats cards
-4. Add `/admin/settings` route in App.tsx
-5. Add Settings tab to AdminDashboardPage
-6. Validate (typecheck + build)
+1. Review `HomePage.tsx` and confirm all hero-related code is removed and the intro section is plain and professional
+2. Review `Header.tsx` and confirm no top-level navigation links are shown (only logo, language switcher, user dropdown)
+3. Validate the build passes
+4. Deploy

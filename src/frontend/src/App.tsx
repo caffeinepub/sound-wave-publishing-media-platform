@@ -24,6 +24,7 @@ import {
   useIsNationalBankcardConfigured,
   useIsStripeConfigured,
 } from "./hooks/useQueries";
+import { LanguageProvider } from "./lib/i18n";
 import AdminAnalyticsPage from "./pages/AdminAnalyticsPage";
 import AdminBookkeepingPage from "./pages/AdminBookkeepingPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
@@ -180,7 +181,7 @@ const adminSettingsRoute = createRoute({
   component: AdminSettingsPage,
 });
 
-// New Sound Waves routes
+// Sound Waves routes
 const eventRegistrationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/event-registration",
@@ -322,7 +323,9 @@ export default function App() {
           defaultTheme="dark"
           enableSystem={false}
         >
-          <RouterProvider router={router} />
+          <LanguageProvider>
+            <RouterProvider router={router} />
+          </LanguageProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>

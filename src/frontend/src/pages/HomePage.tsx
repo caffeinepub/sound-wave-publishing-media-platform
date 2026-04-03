@@ -18,77 +18,73 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { useTranslation } from "../lib/i18n";
+
+const HOME_CATEGORIES = [
+  {
+    key: "narrativeArts",
+    label: "Narrative Arts",
+    Icon: BookOpen,
+    image: "/assets/generated/category-narrative-arts.dim_400x400.jpg",
+  },
+  {
+    key: "poetry",
+    label: "Poetry",
+    Icon: Feather,
+    image: "/assets/generated/category-poetry.dim_400x400.jpg",
+  },
+  {
+    key: "photography",
+    label: "Photography",
+    Icon: Camera,
+    image: "/assets/generated/category-photography.dim_400x400.jpg",
+  },
+  {
+    key: "artDesigns",
+    label: "Art Designs",
+    Icon: Palette,
+    image: "/assets/generated/category-art-designs.dim_400x400.jpg",
+  },
+  {
+    key: "artsAndCrafts",
+    label: "Arts & Crafts",
+    Icon: Scissors,
+    image: "/assets/generated/category-arts-crafts.dim_400x400.jpg",
+  },
+  {
+    key: "cinemaCreation",
+    label: "Cinema Creation",
+    Icon: Film,
+    image: "/assets/generated/category-cinema.dim_400x400.jpg",
+  },
+  {
+    key: "musicalWorks",
+    label: "Musical Works",
+    Icon: Music,
+    image: "/assets/generated/category-musical-works.dim_400x400.jpg",
+  },
+  {
+    key: "scoreSheets",
+    label: "Score Sheets",
+    Icon: Music2,
+    image: "/assets/generated/category-score-sheets.dim_400x400.jpg",
+  },
+];
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
-
-  const HOME_CATEGORIES = [
-    {
-      key: "narrativeArts",
-      label: t("cat.narrativeArts"),
-      Icon: BookOpen,
-      image: "/assets/generated/category-narrative-arts.dim_400x400.jpg",
-    },
-    {
-      key: "poetry",
-      label: t("cat.poetry"),
-      Icon: Feather,
-      image: "/assets/generated/category-poetry.dim_400x400.jpg",
-    },
-    {
-      key: "photography",
-      label: t("cat.photography"),
-      Icon: Camera,
-      image: "/assets/generated/category-photography.dim_400x400.jpg",
-    },
-    {
-      key: "artDesigns",
-      label: t("cat.artDesigns"),
-      Icon: Palette,
-      image: "/assets/generated/category-art-designs.dim_400x400.jpg",
-    },
-    {
-      key: "artsAndCrafts",
-      label: t("cat.artsAndCrafts"),
-      Icon: Scissors,
-      image: "/assets/generated/category-arts-crafts.dim_400x400.jpg",
-    },
-    {
-      key: "cinemaCreation",
-      label: t("cat.cinemaCreation"),
-      Icon: Film,
-      image: "/assets/generated/category-cinema.dim_400x400.jpg",
-    },
-    {
-      key: "musicalWorks",
-      label: t("cat.musicalWorks"),
-      Icon: Music,
-      image: "/assets/generated/category-musical-works.dim_400x400.jpg",
-    },
-    {
-      key: "scoreSheets",
-      label: t("cat.scoreSheets"),
-      Icon: Music2,
-      image: "/assets/generated/category-score-sheets.dim_400x400.jpg",
-    },
-  ];
-
   return (
     <div className="min-h-screen">
-      {/* Plain Introduction */}
-      <section className="container py-12">
-        <h1 className="text-3xl font-semibold mb-3">
+      {/* Company Introduction — hardcoded, no translation keys */}
+      <section className="container py-14">
+        <h1 className="text-3xl font-semibold tracking-tight mb-4">
           Sound Wave Publishing &amp; Media
         </h1>
-        <p className="text-muted-foreground mb-2">
-          Where Music and Art Meet Legacy
+        <p className="text-lg font-medium text-foreground max-w-2xl mb-2">
+          Empowering original artists to showcase, protect, and profit from
+          their creative work.
         </p>
-        <p className="text-muted-foreground max-w-2xl">
-          A platform for original artists to showcase, license, and monetize
-          their work across music, visual art, photography, cinema, narrative
-          arts, poetry, arts &amp; crafts, and score sheets.
+        <p className="text-sm text-muted-foreground tracking-widest uppercase font-medium">
+          Where Music and Art Meet Legacy
         </p>
       </section>
 
@@ -98,19 +94,19 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {[
               {
-                label: t("home.stats.totalShares"),
+                label: "Total Shares",
                 value: "10,000,000",
                 icon: TrendingUp,
               },
-              { label: t("home.stats.sharePrice"), value: "$1.00", icon: Star },
+              { label: "Share Price", value: "$1.00", icon: Star },
               {
-                label: t("home.stats.artistShares"),
+                label: "Artist Shares Available",
                 value: "3,000,000",
                 icon: Users,
               },
               {
-                label: t("home.stats.freeShares"),
-                value: t("home.stats.perArtist"),
+                label: "Free Shares (First 100)",
+                value: "1 per Artist",
                 icon: Award,
               },
             ].map(({ label, value, icon: Icon }) => (
@@ -134,10 +130,10 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-10">
             <div className="space-y-2">
               <h2 className="font-display text-3xl md:text-4xl font-bold">
-                {t("home.galleries.title")}
+                Explore Our Galleries
               </h2>
               <p className="text-muted-foreground text-sm max-w-md">
-                {t("home.galleries.subtitle")}
+                Eight disciplines. One platform. Infinite creative possibility.
               </p>
             </div>
             <Button
@@ -146,7 +142,7 @@ export default function HomePage() {
               data-ocid="home.view_all_galleries.button"
               onClick={() => navigate({ to: "/galleries" })}
             >
-              {t("home.galleries.viewAll")}
+              View All Galleries
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -191,7 +187,7 @@ export default function HomePage() {
               data-ocid="home.view_all_galleries.button"
               onClick={() => navigate({ to: "/galleries" })}
             >
-              {t("home.galleries.viewAll")}
+              View All Galleries
             </Button>
           </div>
         </div>
@@ -201,35 +197,37 @@ export default function HomePage() {
       <section className="py-20">
         <div className="container">
           <div className="text-center mb-12 space-y-3">
-            <h2 className="font-display text-4xl font-bold">
-              {t("home.features.title")}
-            </h2>
+            <h2 className="font-display text-4xl font-bold">What We Offer</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              {t("home.features.subtitle")}
+              Sound Waves Publishing &amp; Media provides a complete ecosystem
+              for artists and music industry professionals.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {[
               {
                 icon: Ticket,
-                title: t("home.features.events.title"),
-                description: t("home.features.events.desc"),
+                title: "Event Registration",
+                description:
+                  "Register for exclusive Sound Waves events and performances. Secure your tickets with seamless Stripe payment processing.",
                 to: "/event-registration" as const,
-                cta: t("home.features.events.cta"),
+                cta: "Register Now",
               },
               {
                 icon: Mic2,
-                title: t("home.features.portal.title"),
-                description: t("home.features.portal.desc"),
+                title: "Artist Portal",
+                description:
+                  "Submit your works across any art discipline, track eligibility, and purchase shares in Sound Waves Publishing & Media. First 100 eligible artists receive a free share.",
                 to: "/artist-portal" as const,
-                cta: t("home.features.portal.cta"),
+                cta: "Join as Artist",
               },
               {
                 icon: Shield,
-                title: t("home.features.equity.title"),
-                description: t("home.features.equity.desc"),
+                title: "Ownership & Equity",
+                description:
+                  "Participating artists can own up to 7 shares of Sound Waves Publishing & Media at $1.00 per share. Build your stake in the company.",
                 to: "/artist-portal" as const,
-                cta: t("home.features.equity.cta"),
+                cta: "Learn More",
               },
             ].map(({ icon: Icon, title, description, to, cta }) => (
               <a
@@ -262,10 +260,10 @@ export default function HomePage() {
         <div className="container">
           <div className="text-center mb-12 space-y-3">
             <h2 className="font-display text-4xl font-bold">
-              {t("home.ownership.title")}
+              Ownership Structure
             </h2>
             <p className="text-muted-foreground">
-              {t("home.ownership.subtitle")}
+              Sound Waves Publishing &amp; Media — S-Corporation
             </p>
           </div>
           <div className="max-w-2xl mx-auto space-y-4">
@@ -300,7 +298,8 @@ export default function HomePage() {
               </div>
             ))}
             <p className="text-xs text-muted-foreground pt-2 text-center">
-              {t("home.ownership.note")}
+              RTS Enterprises is a privately held for-profit business entity
+              serving as the parent holding company.
             </p>
           </div>
         </div>
@@ -309,27 +308,28 @@ export default function HomePage() {
       {/* CTA */}
       <section className="py-20">
         <div className="container text-center space-y-6">
-          <h2 className="font-display text-4xl font-bold">
-            {t("home.cta.title")}
-          </h2>
+          <h2 className="font-display text-4xl font-bold">Ready to Join?</h2>
           <p className="text-muted-foreground max-w-md mx-auto">
-            {t("home.cta.subtitle")}
+            Submit 15 pieces across any art discipline to become an eligible
+            artist and purchase shares in Sound Waves Publishing &amp; Media.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Button
               size="lg"
               className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+              data-ocid="home.get_started.primary_button"
               onClick={() => navigate({ to: "/artist-portal" })}
             >
-              {t("home.cta.getStarted")}
+              Get Started as an Artist
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="border-border hover:border-primary/50"
+              data-ocid="home.view_events.secondary_button"
               onClick={() => navigate({ to: "/event-registration" })}
             >
-              {t("home.cta.viewEvents")}
+              View Upcoming Events
             </Button>
           </div>
         </div>
